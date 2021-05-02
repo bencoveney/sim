@@ -1,8 +1,26 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace Sim
+namespace Sim.Model
 {
+  enum EntityTypes
+  {
+    Person
+  }
+
+  enum ComponentTypes
+  {
+    Person_Name,
+    Person_Age
+  }
+
+  enum ValueTypes
+  {
+    Person_Name_FirstName,
+    Person_Name_Surname,
+    Person_Age_Days
+  }
+
   public class SimContext : DbContext
   {
     private static bool _created = false;
@@ -39,7 +57,7 @@ namespace Sim
   public class Component
   {
     public int ComponentId { get; set; }
-    public int Name { get; set; }
+    public string Name { get; set; }
     public List<IntValue> IntValues { get; } = new List<IntValue>();
     public List<StringValue> StringValues { get; } = new List<StringValue>();
     public List<FloatValue> FloatValues { get; } = new List<FloatValue>();
@@ -49,28 +67,28 @@ namespace Sim
   public class IntValue
   {
     public int IntValueId { get; set; }
-    public int Name { get; set; }
+    public string Name { get; set; }
     public int Value { get; set; }
   }
 
   public class StringValue
   {
     public int StringValueId { get; set; }
-    public int Name { get; set; }
+    public string Name { get; set; }
     public string Value { get; set; }
   }
 
   public class FloatValue
   {
     public int FloatValueId { get; set; }
-    public int Name { get; set; }
+    public string Name { get; set; }
     public float Value { get; set; }
   }
 
   public class BoolValue
   {
     public int BoolValueId { get; set; }
-    public int Name { get; set; }
+    public string Name { get; set; }
     public bool Value { get; set; }
   }
 }

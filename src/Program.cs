@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using Sim.Factories;
+using Sim.Model;
 
 namespace Sim
 {
@@ -7,11 +9,15 @@ namespace Sim
   {
     private static void Main()
     {
+
       var dbLocation = DbLocation.Get();
       Console.WriteLine($"DB Location: {dbLocation}");
       using (var db = new SimContext(dbLocation))
       {
-        db.Entities.Add(new Entity() { Name = "Test" });
+        foreach (int value in Enumerable.Range(0, 10))
+        {
+          db.Entities.Add(Person.Create());
+        }
 
         db.SaveChanges();
 
