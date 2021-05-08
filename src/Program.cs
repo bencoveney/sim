@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Sim.Factories;
 using Sim.Model;
@@ -14,10 +15,25 @@ namespace Sim
       Console.WriteLine($"DB Location: {dbLocation}");
       using (var db = new SimContext(dbLocation))
       {
-        foreach (int value in Enumerable.Range(0, 10))
+        var entities = Enumerable.Range(0, 10).Select(it => Person.Create()).ToList();
+
+        entities.ForEach(entity => db.Entities.Add(entity));
+
+        Logger.LogEntities(entities);
+
+        var systems = new List<Systems.System>() {
+          new Systems.AgeSystem()
+        };
+
+        for (var i = 0; i < 100; i++)
         {
-          db.Entities.Add(Person.Create());
+          systems.ForEach(system =>
+          {
+            system.Update(1, entities);
+          });
         }
+
+        Logger.LogEntities(entities);
 
         db.SaveChanges();
 

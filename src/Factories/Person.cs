@@ -19,7 +19,8 @@ namespace Sim.Factories
       {
         Name = "Person",
         Components = {
-          CreateName()
+          CreateName(),
+          CreateAge()
         }
       };
     }
