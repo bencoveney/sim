@@ -13,14 +13,14 @@ namespace Sim.Factories
       names.AddRange(Resource.Read("names.txt").Split(Environment.NewLine));
     }
 
-    public static Entity Create()
+    public static Entity Create(int ageRange)
     {
       return new Entity
       {
         Name = "Person",
         Components = {
           CreateName(),
-          CreateAge()
+          CreateAge(ageRange)
         }
       };
     }
@@ -45,7 +45,7 @@ namespace Sim.Factories
       };
     }
 
-    private static Component CreateAge()
+    private static Component CreateAge(int ageRange)
     {
       return new Component
       {
@@ -53,8 +53,8 @@ namespace Sim.Factories
         IntValues = {
           new IntValue
           {
-            Name = "Days",
-            Value = Random.random.Next(100 * 365)
+            Name = "BirthTick",
+            Value = Random.random.Next(ageRange)
           }
         }
       };

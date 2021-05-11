@@ -5,6 +5,6 @@ namespace Sim.Systems
 {
   interface System
   {
-    void Update(float deltaTime, List<Entity> entities);
+    void Update(float deltaMinutes, List<Entity> entities);
   }
 }

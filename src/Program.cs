@@ -15,32 +15,25 @@ namespace Sim
       Console.WriteLine($"DB Location: {dbLocation}");
       using (var db = new SimContext(dbLocation))
       {
-        var entities = Enumerable.Range(0, 10).Select(it => Person.Create()).ToList();
+        var start = Ticks.From(50, 0, 0, 0, 0);
+
+        var entities = Enumerable.Range(0, 10).Select(it => Person.Create((int)start)).ToList();
 
         entities.ForEach(entity => db.Entities.Add(entity));
 
-        Logger.LogEntities(entities);
+        Logger.LogEntities("Before running", entities, start);
 
         var systems = new List<Systems.System>() {
           new Systems.AgeSystem()
         };
 
-        for (var i = 0; i < 100; i++)
-        {
-          systems.ForEach(system =>
-          {
-            system.Update(1, entities);
-          });
-        }
+        var runner = new Runner(systems, entities);
+        runner.currentTick = (int)start;
+        runner.runFor(100);
 
-        Logger.LogEntities(entities);
+        Logger.LogEntities("After running", entities, runner.currentTick);
 
         db.SaveChanges();
-
-        foreach (var entity in db.Entities.ToList())
-        {
-          Console.WriteLine($"Entity {entity.Name}");
-        }
       }
     }
   }
