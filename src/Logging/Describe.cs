@@ -23,30 +23,30 @@ namespace Sim.Logging
       switch (component.Kind.ToComponentKind())
       {
         case ComponentKind.PersonName:
-          return $"{Describe.GetStringValue(component, StringValueName.FirstName)} {Describe.GetStringValue(component, StringValueName.Surname)}";
+          return $"{Describe.GetStringValue(component, StringKind.FirstName)} {Describe.GetStringValue(component, StringKind.Surname)}";
         case ComponentKind.Birth:
-          return Ticks.ToDateString(Describe.GetIntValue(component, IntValueName.Tick));
+          return Ticks.ToDateString(Describe.GetIntValue(component, IntKind.Tick));
         case ComponentKind.Death:
-          return Ticks.ToDateString(Describe.GetIntValue(component, IntValueName.Tick));
+          return Ticks.ToDateString(Describe.GetIntValue(component, IntKind.Tick));
         case ComponentKind.LocationName:
-          return Describe.GetStringValue(component, StringValueName.LocationName);
+          return Describe.GetStringValue(component, StringKind.LocationName);
         case ComponentKind.ParentLocation:
         case ComponentKind.Position:
         case ComponentKind.Home:
-          return Entity(component.Entities[EntityValueName.Entity].Value);
+          return Entity(component.Entities[EntityValueKind.Entity.ToInt()].Value);
         default:
           return "[COULD NOT DESCRIBE COMPONENT]";
       }
     }
 
-    public static int GetIntValue(Component component, IntValueName name)
+    public static int GetIntValue(Component component, IntKind name)
     {
-      return component.Ints[name].Value;
+      return component.Ints[name.ToInt()].Value;
     }
 
-    public static string GetStringValue(Component component, StringValueName name)
+    public static string GetStringValue(Component component, StringKind name)
     {
-      return component.Strings[name].Value;
+      return component.Strings[name.ToInt()].Value;
     }
   }
 }

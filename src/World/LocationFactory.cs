@@ -25,22 +25,14 @@ namespace Sim.World
     private static Component CreateName(EntityBuilder builder, string locationName)
     {
       var component = builder.AddComponent(ComponentKind.LocationName.ToInt());
-      component.AddString(new StringValue
-      {
-        Name = StringValueName.LocationName,
-        Value = locationName
-      });
+      component.AddString(new StringValue(StringKind.LocationName.ToInt(), locationName));
       return component;
     }
 
     private static Component CreateParent(EntityBuilder builder, Entity parent)
     {
       var component = builder.AddComponent(ComponentKind.ParentLocation.ToInt());
-      component.AddEntity(new EntityValue
-      {
-        Name = EntityValueName.Entity,
-        Value = parent
-      });
+      component.AddEntity(new EntityValue(EntityValueKind.Entity.ToInt(), parent));
       return component;
     }
   }

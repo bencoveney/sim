@@ -15,7 +15,7 @@ namespace Sim.World
     {
       foreach (Entity entity in this.filter.GetEntities())
       {
-        var age = currentTick - entity.ComponentsByKind[ComponentKind.Birth.ToInt()].Ints[IntValueName.Tick].Value;
+        var age = currentTick - entity.ComponentsByKind[ComponentKind.Birth.ToInt()].Ints[IntKind.Tick.ToInt()].Value;
 
         if (Ticks.NumberOfYears(age) >= 80)
         {

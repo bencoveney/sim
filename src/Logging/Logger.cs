@@ -41,25 +41,17 @@ namespace Sim.Logging
               break;
             default:
               Console.WriteLine($"- {component.Kind.ToComponentKind()}");
-              foreach (var value in component.Bools.Values)
-              {
-                Console.WriteLine($"  - {value.Name}: {value.Value}");
-              }
-              foreach (var value in component.Floats.Values)
-              {
-                Console.WriteLine($"  - {value.Name}: {value.Value}");
-              }
               foreach (var value in component.Ints.Values)
               {
-                Console.WriteLine($"  - {value.Name}: {value.Value}");
+                Console.WriteLine($"  - {value.Kind.ToIntKind()}: {value.Value}");
               }
               foreach (var value in component.Strings.Values)
               {
-                Console.WriteLine($"  - {value.Name}: {value.Value}");
+                Console.WriteLine($"  - {value.Kind.ToStringKind()}: {value.Value}");
               }
               foreach (var value in component.Entities.Values)
               {
-                Console.WriteLine($"  - {value.Name}: {value.Value}");
+                Console.WriteLine($"  - {value.Kind.ToEntityKind()}: {value.Value}");
               }
               break;
           }
