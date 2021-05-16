@@ -17,15 +17,15 @@ namespace Sim
         {
           switch (component.Name)
           {
-            case "Name":
-              Console.WriteLine($"- Name: {GetStringValue(component, "FirstName")} {GetStringValue(component, "Surname")}");
+            case ComponentName.Name:
+              Console.WriteLine($"- Name: {GetStringValue(component, StringValueName.FirstName)} {GetStringValue(component, StringValueName.Surname)}");
               break;
-            case "Age":
-              var birthTick = GetIntValue(component, "BirthTick");
+            case ComponentName.Birth:
+              var birthTick = GetIntValue(component, IntValueName.Tick);
               Console.WriteLine($"- Born: {Ticks.ToDateString(birthTick)}");
               break;
-            case "Death":
-              var deathTick = GetIntValue(component, "DeathTick");
+            case ComponentName.Death:
+              var deathTick = GetIntValue(component, IntValueName.Tick);
               Console.WriteLine($"- Died: {Ticks.ToDateString(deathTick)}");
               break;
             default:
@@ -52,12 +52,12 @@ namespace Sim
       }
     }
 
-    private static int GetIntValue(Component component, string name)
+    private static int GetIntValue(Component component, IntValueName name)
     {
       return component.IntValues.Find(value => value.Name == name).Value;
     }
 
-    private static string GetStringValue(Component component, string name)
+    private static string GetStringValue(Component component, StringValueName name)
     {
       return component.StringValues.Find(value => value.Name == name).Value;
     }

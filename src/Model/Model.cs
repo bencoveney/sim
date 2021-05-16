@@ -45,50 +45,87 @@ namespace Sim.Model
         => options.UseSqlite($"Data Source={_databasePath}");
   }
 
+  public enum EntityName
+  {
+    None = 0,
+    Person = 1
+  }
+
   public class Entity
   {
     public int EntityId { get; set; }
-    public string Name { get; set; }
+    public EntityName Name { get; set; }
     public Entity Parent { get; set; }
 
     public List<Component> Components { get; } = new List<Component>();
   }
 
+  public enum ComponentName
+  {
+    None = 0,
+    Name = 1,
+    Birth = 2,
+    Death = 3
+  }
+
   public class Component
   {
     public int ComponentId { get; set; }
-    public string Name { get; set; }
+    public ComponentName Name { get; set; }
     public List<IntValue> IntValues { get; } = new List<IntValue>();
     public List<StringValue> StringValues { get; } = new List<StringValue>();
     public List<FloatValue> FloatValues { get; } = new List<FloatValue>();
     public List<BoolValue> BoolValues { get; } = new List<BoolValue>();
   }
 
+  public enum IntValueName
+  {
+    None = 0,
+    Tick = 1
+  }
+
   public class IntValue
   {
     public int IntValueId { get; set; }
-    public string Name { get; set; }
+    public IntValueName Name { get; set; }
     public int Value { get; set; }
+  }
+
+  public enum StringValueName
+  {
+    None = 0,
+    FirstName = 1,
+    Surname = 2
   }
 
   public class StringValue
   {
     public int StringValueId { get; set; }
-    public string Name { get; set; }
+    public StringValueName Name { get; set; }
     public string Value { get; set; }
+  }
+
+  public enum FloatValueName
+  {
+    None = 0
   }
 
   public class FloatValue
   {
     public int FloatValueId { get; set; }
-    public string Name { get; set; }
+    public FloatValueName Name { get; set; }
     public float Value { get; set; }
+  }
+
+  public enum BoolValueName
+  {
+    None = 0
   }
 
   public class BoolValue
   {
     public int BoolValueId { get; set; }
-    public string Name { get; set; }
+    public BoolValueName Name { get; set; }
     public bool Value { get; set; }
   }
 }

@@ -10,14 +10,14 @@ namespace Sim.Systems
     {
       var relevant = entities.FindAll(
         entity =>
-          entity.Components.Exists(component => component.Name == "Age") &&
-          !entity.Components.Exists(component => component.Name == "Death"));
+          entity.Components.Exists(component => component.Name == ComponentName.Birth) &&
+          !entity.Components.Exists(component => component.Name == ComponentName.Death));
 
       foreach (Entity entity in relevant)
       {
 
-        var ageComponent = entity.Components.Find(component => component.Name == "Age");
-        var birthTick = ageComponent.IntValues.Find(intValue => intValue.Name == "BirthTick");
+        var ageComponent = entity.Components.Find(component => component.Name == ComponentName.Birth);
+        var birthTick = ageComponent.IntValues.Find(intValue => intValue.Name == IntValueName.Tick);
 
         var age = currentTick - birthTick.Value;
 

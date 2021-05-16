@@ -17,7 +17,7 @@ namespace Sim.Factories
     {
       return new Entity
       {
-        Name = "Person",
+        Name = EntityName.Person,
         Components = {
           CreateName(),
           CreateAge(ageRange)
@@ -29,16 +29,16 @@ namespace Sim.Factories
     {
       return new Component
       {
-        Name = "Name",
+        Name = ComponentName.Name,
         StringValues = {
           new StringValue
           {
-            Name = "FirstName",
+            Name = StringValueName.FirstName,
             Value = Random.Pick(names)
           },
           new StringValue
           {
-            Name = "Surname",
+            Name = StringValueName.Surname,
             Value = Random.Pick(names)
           },
         }
@@ -49,11 +49,11 @@ namespace Sim.Factories
     {
       return new Component
       {
-        Name = "Age",
+        Name = ComponentName.Birth,
         IntValues = {
           new IntValue
           {
-            Name = "BirthTick",
+            Name = IntValueName.Tick,
             Value = Random.random.Next(ageRange)
           }
         }
@@ -64,11 +64,11 @@ namespace Sim.Factories
     {
       return new Component
       {
-        Name = "Death",
+        Name = ComponentName.Death,
         IntValues = {
           new IntValue
           {
-            Name = "DeathTick",
+            Name = IntValueName.Tick,
             Value = deathTick
           }
         }
