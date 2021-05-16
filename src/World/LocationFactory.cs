@@ -4,20 +4,21 @@ namespace Sim.World
 {
   class LocationFactory
   {
-    public static Entity CreateWorld(string name)
+    public static Entity CreateWorld(EntityPool entityPool, string name)
     {
-      return CreateLocation(name);
+      return CreateLocation(entityPool, name);
     }
-    public static Entity CreateBuilding(string name, Entity parent)
+    public static Entity CreateBuilding(EntityPool entityPool, string name, Entity parent)
     {
-      var entity = CreateLocation(name);
+      var entity = CreateLocation(entityPool, name);
       entity.AddComponent(CreateParent(parent));
       return entity;
     }
 
-    private static Entity CreateLocation(string name)
+    private static Entity CreateLocation(EntityPool entityPool, string name)
     {
-      var entity = new Entity { Name = EntityName.Location };
+      var entity = entityPool.Create();
+      entity.Name = EntityName.Location;
       entity.AddComponent(CreateName(name));
       return entity;
     }

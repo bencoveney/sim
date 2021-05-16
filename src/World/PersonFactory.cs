@@ -5,9 +5,10 @@ namespace Sim.World
 {
   class PersonFactory
   {
-    public static Entity Create(int ageRange)
+    public static Entity Create(EntityPool entityPool, int ageRange)
     {
-      var entity = new Entity { Name = EntityName.Person };
+      var entity = entityPool.Create();
+      entity.Name = EntityName.Person;
       entity.AddComponent(CreateName());
       entity.AddComponent(CreateBirth(ageRange));
       return entity;

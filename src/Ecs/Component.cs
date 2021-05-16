@@ -16,7 +16,7 @@ namespace Sim.Ecs
 
   public class Component
   {
-    public int EntityId { get; set; }
+    public uint EntityId { get; set; }
     public int ComponentId { get; set; }
     public ComponentName Name { get; set; }
     public Dictionary<IntValueName, IntValue> Ints { get; } = new Dictionary<IntValueName, IntValue>();
