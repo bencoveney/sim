@@ -13,3 +13,9 @@ People are born and people die
 A hero forms a community from multiple villages
 Multiple communities fight for power
 Communities split when they become too large
+
+## Inspiration
+
+Rimworld
+Dwarf fortress
+Middle earth

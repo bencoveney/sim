@@ -1,33 +1,7 @@
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 
 namespace Sim.Model
 {
-  public class SimContext : DbContext
-  {
-    private static bool _created = false;
-    private static string _databasePath;
-    public DbSet<Entity> Entities { get; set; }
-    public DbSet<Component> Components { get; set; }
-    public DbSet<IntValue> IntValues { get; set; }
-    public DbSet<StringValue> StringValues { get; set; }
-    public DbSet<FloatValue> FloatValues { get; set; }
-    public DbSet<BoolValue> BoolValues { get; set; }
-    public SimContext(string databasePath) : base()
-    {
-      if (!_created)
-      {
-        _databasePath = databasePath;
-        _created = true;
-        Database.EnsureDeleted();
-        Database.EnsureCreated();
-      }
-    }
-    protected override void OnConfiguring(DbContextOptionsBuilder options)
-        => options.UseSqlite($"Data Source={_databasePath}");
-  }
-
   public enum EntityName
   {
     None = 0,
@@ -39,7 +13,6 @@ namespace Sim.Model
   {
     public int EntityId { get; set; }
     public EntityName Name { get; set; }
-    [NotMapped]
     public Dictionary<ComponentName, Component> Components { get; } = new Dictionary<ComponentName, Component>();
     public void AddComponent(Component component)
     {
