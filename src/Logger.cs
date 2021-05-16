@@ -17,16 +17,20 @@ namespace Sim
         {
           switch (component.Name)
           {
-            case ComponentName.Name:
-              Console.WriteLine($"- Name: {GetStringValue(component, StringValueName.FirstName)} {GetStringValue(component, StringValueName.Surname)}");
+            case ComponentName.PersonName:
+              Console.WriteLine($"- Name: {Describe.Component(component)}");
               break;
             case ComponentName.Birth:
-              var birthTick = GetIntValue(component, IntValueName.Tick);
-              Console.WriteLine($"- Born: {Ticks.ToDateString(birthTick)}");
+              Console.WriteLine($"- Born: {Describe.Component(component)}");
               break;
             case ComponentName.Death:
-              var deathTick = GetIntValue(component, IntValueName.Tick);
-              Console.WriteLine($"- Died: {Ticks.ToDateString(deathTick)}");
+              Console.WriteLine($"- Died: {Describe.Component(component)}");
+              break;
+            case ComponentName.LocationName:
+              Console.WriteLine($"- Name: {Describe.Component(component)}");
+              break;
+            case ComponentName.ParentLocation:
+              Console.WriteLine($"- Is In: {Describe.Component(component)}");
               break;
             default:
               Console.WriteLine($"- {component.Name}");
@@ -46,20 +50,14 @@ namespace Sim
               {
                 Console.WriteLine($"  - {value.Name}: {value.Value}");
               }
+              foreach (var value in component.Entities.Values)
+              {
+                Console.WriteLine($"  - {value.Name}: {value.Value}");
+              }
               break;
           }
         }
       }
-    }
-
-    private static int GetIntValue(Component component, IntValueName name)
-    {
-      return component.Ints[name].Value;
-    }
-
-    private static string GetStringValue(Component component, StringValueName name)
-    {
-      return component.Strings[name].Value;
     }
   }
 }

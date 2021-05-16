@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Sim.Factories;
 using Sim.Model;
 
@@ -17,9 +16,12 @@ namespace Sim
       {
         var start = Ticks.From(50, 0, 0, 0, 0);
 
-        var entities = Enumerable.Range(0, 10).Select(it => Person.Create((int)start)).ToList();
+        var entities = World.Create((int)start, 3, 10);
 
-        entities.ForEach(entity => db.Entities.Add(entity));
+        foreach (Entity entity in entities)
+        {
+          db.Entities.Add(entity);
+        }
 
         Logger.LogEntities("Before running", entities, start);
 

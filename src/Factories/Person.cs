@@ -6,11 +6,8 @@ namespace Sim.Factories
 {
   class Person
   {
-    private static List<string> names = new List<string>();
-
     static Person()
     {
-      names.AddRange(Resource.Read("names.txt").Split(Environment.NewLine));
     }
 
     public static Entity Create(int ageRange)
@@ -23,16 +20,16 @@ namespace Sim.Factories
 
     private static Component CreateName()
     {
-      var component = new Component { Name = ComponentName.Name };
+      var component = new Component { Name = ComponentName.PersonName };
       component.AddString(new StringValue
       {
         Name = StringValueName.FirstName,
-        Value = Random.Pick(names)
+        Value = Random.Name()
       });
       component.AddString(new StringValue
       {
         Name = StringValueName.Surname,
-        Value = Random.Pick(names)
+        Value = Random.Name()
       });
       return component;
     }

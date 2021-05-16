@@ -31,14 +31,14 @@ namespace Sim.Model
   public enum EntityName
   {
     None = 0,
-    Person = 1
+    Person = 1,
+    Location = 2
   }
 
   public class Entity
   {
     public int EntityId { get; set; }
     public EntityName Name { get; set; }
-    public Entity Parent { get; set; }
     [NotMapped]
     public Dictionary<ComponentName, Component> Components { get; } = new Dictionary<ComponentName, Component>();
     public void AddComponent(Component component)
@@ -52,9 +52,13 @@ namespace Sim.Model
   public enum ComponentName
   {
     None = 0,
-    Name = 1,
+    PersonName = 1,
     Birth = 2,
-    Death = 3
+    Death = 3,
+
+    LocationName = 4,
+
+    ParentLocation = 5
   }
 
   public class Component
@@ -62,15 +66,11 @@ namespace Sim.Model
     public int EntityId { get; set; }
     public int ComponentId { get; set; }
     public ComponentName Name { get; set; }
-    // How to ensure these get serialised?
-    [NotMapped]
     public Dictionary<IntValueName, IntValue> Ints { get; } = new Dictionary<IntValueName, IntValue>();
-    [NotMapped]
     public Dictionary<StringValueName, StringValue> Strings { get; } = new Dictionary<StringValueName, StringValue>();
-    [NotMapped]
     public Dictionary<FloatValueName, FloatValue> Floats { get; } = new Dictionary<FloatValueName, FloatValue>();
-    [NotMapped]
     public Dictionary<BoolValueName, BoolValue> Bools { get; } = new Dictionary<BoolValueName, BoolValue>();
+    public Dictionary<EntityValueName, EntityValue> Entities { get; } = new Dictionary<EntityValueName, EntityValue>();
     public void AddInt(IntValue intValue)
     {
       this.Ints.Add(intValue.Name, intValue);
@@ -90,6 +90,11 @@ namespace Sim.Model
     {
       this.Bools.Add(boolValue.Name, boolValue);
       boolValue.ComponentId = this.ComponentId;
+    }
+    public void AddEntity(EntityValue entityValue)
+    {
+      this.Entities.Add(entityValue.Name, entityValue);
+      entityValue.ComponentId = this.ComponentId;
     }
   }
 
@@ -111,7 +116,8 @@ namespace Sim.Model
   {
     None = 0,
     FirstName = 1,
-    Surname = 2
+    Surname = 2,
+    LocationName = 3,
   }
 
   public class StringValue
@@ -146,5 +152,17 @@ namespace Sim.Model
     public int BoolValueId { get; set; }
     public BoolValueName Name { get; set; }
     public bool Value { get; set; }
+  }
+  public enum EntityValueName
+  {
+    None = 0,
+    Entity = 1
+  }
+  public class EntityValue
+  {
+    public int ComponentId { get; set; }
+    public int EntityValueId { get; set; }
+    public EntityValueName Name { get; set; }
+    public Entity Value { get; set; }
   }
 }

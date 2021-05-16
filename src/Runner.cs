@@ -8,12 +8,12 @@ namespace Sim
 {
   class Runner
   {
-    private List<Systems.System> systems;
-    private List<Entity> entities;
-    private List<Filter> filters;
+    private IEnumerable<Systems.System> systems;
+    private IEnumerable<Entity> entities;
+    private IEnumerable<Filter> filters;
     public const int TickSize = 1;
 
-    public Runner(List<Systems.System> systems, List<Entity> entities)
+    public Runner(IEnumerable<Systems.System> systems, IEnumerable<Entity> entities)
     {
       this.systems = systems;
       this.entities = entities;
@@ -31,15 +31,15 @@ namespace Sim
         for (var tick = 0; tick < ticksPerYear; tick++)
         {
           UpdateFilters();
-          systems.ForEach(system =>
+          foreach (Systems.System system in systems)
           {
             system.Update(TickSize, currentTick);
-          });
+          }
           // Should this be done before update?
           currentTick += TickSize;
         }
         sw.Stop();
-        Console.WriteLine($"Year {year} ran in {sw.ElapsedMilliseconds} ms");
+        Console.WriteLine($"Year {year} ran in {sw.ElapsedMilliseconds} ms - {entities.Count()} entities");
       }
     }
 
