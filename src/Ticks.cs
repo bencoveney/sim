@@ -24,15 +24,15 @@ namespace Sim
 
     public static TickParts ToParts(float ticks)
     {
-      var years = Math.Floor(ticks / ticksPerYear);
+      var years = NumberOfYears(ticks);
       var remainingAfterYears = ticks - (years * ticksPerYear);
-      var months = Math.Floor(remainingAfterYears / ticksPerMonth);
+      var months = NumberOfYears(remainingAfterYears);
       var remainingAfterMonths = remainingAfterYears - (months * ticksPerMonth);
-      var days = Math.Floor(remainingAfterMonths / ticksPerDay);
+      var days = NumberOfDays(remainingAfterMonths);
       var remainingAfterDays = remainingAfterMonths - (days * ticksPerDay);
-      var hours = Math.Floor(remainingAfterDays / ticksPerHour);
+      var hours = NumberOfHours(remainingAfterDays);
       var remainingAfterHours = remainingAfterDays - (hours * ticksPerHour);
-      var minutes = Math.Floor(remainingAfterHours / ticksPerMinute);
+      var minutes = Math.Floor(remainingAfterHours);
 
       return new TickParts()
       {
@@ -42,6 +42,31 @@ namespace Sim
         Hours = (int)hours,
         Minutes = (int)minutes,
       };
+    }
+
+    public static int NumberOfYears(float ticks)
+    {
+      return (int)Math.Floor(ticks / ticksPerYear);
+    }
+
+    public static int NumberOfMonths(float ticks)
+    {
+      return (int)Math.Floor(ticks / ticksPerMonth);
+    }
+
+    public static int NumberOfDays(float ticks)
+    {
+      return (int)Math.Floor(ticks / ticksPerDay);
+    }
+
+    public static int NumberOfHours(float ticks)
+    {
+      return (int)Math.Floor(ticks / ticksPerHour);
+    }
+
+    public static int NumberOfMinutes(float ticks)
+    {
+      return (int)Math.Floor(ticks / ticksPerMinute);
     }
 
     private static string Pad(double value)

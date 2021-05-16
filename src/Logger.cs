@@ -13,7 +13,7 @@ namespace Sim
       foreach (var entity in entities)
       {
         Console.WriteLine($"{Environment.NewLine}{entity.Name}");
-        foreach (var component in entity.Components)
+        foreach (var component in entity.Components.Values)
         {
           switch (component.Name)
           {
@@ -30,19 +30,19 @@ namespace Sim
               break;
             default:
               Console.WriteLine($"- {component.Name}");
-              foreach (var value in component.BoolValues)
+              foreach (var value in component.BoolValues.Values)
               {
                 Console.WriteLine($"  - {value.Name}: {value.Value}");
               }
-              foreach (var value in component.FloatValues)
+              foreach (var value in component.FloatValues.Values)
               {
                 Console.WriteLine($"  - {value.Name}: {value.Value}");
               }
-              foreach (var value in component.IntValues)
+              foreach (var value in component.IntValues.Values)
               {
                 Console.WriteLine($"  - {value.Name}: {value.Value}");
               }
-              foreach (var value in component.StringValues)
+              foreach (var value in component.StringValues.Values)
               {
                 Console.WriteLine($"  - {value.Name}: {value.Value}");
               }
@@ -54,12 +54,12 @@ namespace Sim
 
     private static int GetIntValue(Component component, IntValueName name)
     {
-      return component.IntValues.Find(value => value.Name == name).Value;
+      return component.IntValues[name].Value;
     }
 
     private static string GetStringValue(Component component, StringValueName name)
     {
-      return component.StringValues.Find(value => value.Name == name).Value;
+      return component.StringValues[name].Value;
     }
   }
 }

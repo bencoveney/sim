@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
 namespace Sim.Model
@@ -56,8 +57,8 @@ namespace Sim.Model
     public int EntityId { get; set; }
     public EntityName Name { get; set; }
     public Entity Parent { get; set; }
-
-    public List<Component> Components { get; } = new List<Component>();
+    [NotMapped]
+    public Dictionary<ComponentName, Component> Components { get; } = new Dictionary<ComponentName, Component>();
   }
 
   public enum ComponentName
@@ -72,10 +73,14 @@ namespace Sim.Model
   {
     public int ComponentId { get; set; }
     public ComponentName Name { get; set; }
-    public List<IntValue> IntValues { get; } = new List<IntValue>();
-    public List<StringValue> StringValues { get; } = new List<StringValue>();
-    public List<FloatValue> FloatValues { get; } = new List<FloatValue>();
-    public List<BoolValue> BoolValues { get; } = new List<BoolValue>();
+    [NotMapped]
+    public Dictionary<IntValueName, IntValue> IntValues { get; } = new Dictionary<IntValueName, IntValue>();
+    [NotMapped]
+    public Dictionary<StringValueName, StringValue> StringValues { get; } = new Dictionary<StringValueName, StringValue>();
+    [NotMapped]
+    public Dictionary<FloatValueName, FloatValue> FloatValues { get; } = new Dictionary<FloatValueName, FloatValue>();
+    [NotMapped]
+    public Dictionary<BoolValueName, BoolValue> BoolValues { get; } = new Dictionary<BoolValueName, BoolValue>();
   }
 
   public enum IntValueName

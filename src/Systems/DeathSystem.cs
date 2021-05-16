@@ -8,25 +8,27 @@ namespace Sim.Systems
   {
     public void Update(float deltaTime, float currentTick, List<Entity> entities)
     {
-      var relevant = entities.FindAll(
-        entity =>
-          entity.Components.Exists(component => component.Name == ComponentName.Birth) &&
-          !entity.Components.Exists(component => component.Name == ComponentName.Death));
-
-      foreach (Entity entity in relevant)
+      foreach (Entity entity in entities)
       {
+        if (!entity.Components.ContainsKey(ComponentName.Birth))
+        {
+          continue;
+        }
 
-        var ageComponent = entity.Components.Find(component => component.Name == ComponentName.Birth);
-        var birthTick = ageComponent.IntValues.Find(intValue => intValue.Name == IntValueName.Tick);
+        if (entity.Components.ContainsKey(ComponentName.Death))
+        {
+          continue;
+        }
+
+        var ageComponent = entity.Components[ComponentName.Birth];
+        var birthTick = entity.Components[ComponentName.Birth].IntValues[IntValueName.Tick];
 
         var age = currentTick - birthTick.Value;
 
-        var ageParts = Ticks.ToParts(age);
-
-        if (ageParts.Years >= 80)
+        if (Ticks.NumberOfYears(age) >= 80)
         {
           Console.WriteLine($"Death");
-          entity.Components.Add(Factories.Person.CreateDeath((int)currentTick));
+          entity.Components.Add(ComponentName.Death, Factories.Person.CreateDeath((int)currentTick));
         }
       }
     }
