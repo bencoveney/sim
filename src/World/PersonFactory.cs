@@ -1,13 +1,9 @@
 using Sim.Ecs;
 
-namespace Sim.Factories
+namespace Sim.World
 {
-  class Person
+  class PersonFactory
   {
-    static Person()
-    {
-    }
-
     public static Entity Create(int ageRange)
     {
       var entity = new Entity { Name = EntityName.Person };

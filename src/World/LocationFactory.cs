@@ -1,8 +1,8 @@
 using Sim.Ecs;
 
-namespace Sim.Factories
+namespace Sim.World
 {
-  class Location
+  class LocationFactory
   {
     public static Entity CreateWorld(string name)
     {

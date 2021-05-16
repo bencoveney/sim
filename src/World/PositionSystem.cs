@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using Sim.Ecs;
-using Sim.Filters;
 
-namespace Sim.Systems
+namespace Sim.World
 {
   class PositionSystem : Ecs.System
   {

@@ -1,8 +1,7 @@
 using System;
 using Sim.Ecs;
-using Sim.Filters;
 
-namespace Sim.Systems
+namespace Sim.World
 {
   class DeathSystem : Ecs.System
   {
@@ -20,7 +19,7 @@ namespace Sim.Systems
         if (Ticks.NumberOfYears(age) >= 80)
         {
           Console.WriteLine($"{Describe.Entity(entity)} has died on {Ticks.ToDateString(currentTick)}");
-          entity.AddComponent(Factories.Person.CreateDeath((int)currentTick));
+          entity.AddComponent(PersonFactory.CreateDeath((int)currentTick));
         }
       }
     }
