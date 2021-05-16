@@ -45,6 +45,7 @@ namespace Sim.Model
     {
       this.Components.Add(component.Name, component);
       component.EntityId = this.EntityId;
+      Updated.EntityUpdated(this);
     }
   }
 

@@ -6,29 +6,24 @@ namespace Sim.Systems
 {
   class DeathSystem : System
   {
-    public void Update(float deltaTime, float currentTick, List<Entity> entities)
+    private Filter filter = new Filter(
+      new List<ComponentName> { ComponentName.Birth },
+      new List<ComponentName> { ComponentName.Death }
+    );
+    public Filter GetFilter()
     {
-      foreach (Entity entity in entities)
+      return this.filter;
+    }
+    public void Update(float deltaTime, float currentTick)
+    {
+      foreach (Entity entity in this.filter.GetEntities())
       {
-        if (!entity.Components.ContainsKey(ComponentName.Birth))
-        {
-          continue;
-        }
-
-        if (entity.Components.ContainsKey(ComponentName.Death))
-        {
-          continue;
-        }
-
-        var ageComponent = entity.Components[ComponentName.Birth];
-        var birthTick = entity.Components[ComponentName.Birth].Ints[IntValueName.Tick];
-
-        var age = currentTick - birthTick.Value;
+        var age = currentTick - entity.Components[ComponentName.Birth].Ints[IntValueName.Tick].Value;
 
         if (Ticks.NumberOfYears(age) >= 80)
         {
           Console.WriteLine($"Death");
-          entity.Components.Add(ComponentName.Death, Factories.Person.CreateDeath((int)currentTick));
+          entity.AddComponent(Factories.Person.CreateDeath((int)currentTick));
         }
       }
     }

@@ -5,6 +5,7 @@ namespace Sim.Systems
 {
   interface System
   {
-    void Update(float deltaMinutes, float totalMinutes, List<Entity> entities);
+    Filter GetFilter();
+    void Update(float deltaMinutes, float totalMinutes);
   }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using Sim.Model;
 
 namespace Sim
@@ -9,12 +10,14 @@ namespace Sim
   {
     private List<Systems.System> systems;
     private List<Entity> entities;
+    private List<Filter> filters;
     public const int TickSize = 1;
 
     public Runner(List<Systems.System> systems, List<Entity> entities)
     {
       this.systems = systems;
       this.entities = entities;
+      this.filters = systems.Select(system => system.GetFilter()).ToList();
     }
 
     public void runFor(int years)
@@ -27,9 +30,10 @@ namespace Sim
         sw.Restart();
         for (var tick = 0; tick < ticksPerYear; tick++)
         {
+          UpdateFilters();
           systems.ForEach(system =>
           {
-            system.Update(TickSize, currentTick, entities);
+            system.Update(TickSize, currentTick);
           });
           // Should this be done before update?
           currentTick += TickSize;
@@ -37,6 +41,18 @@ namespace Sim
         sw.Stop();
         Console.WriteLine($"Year {year} ran in {sw.ElapsedMilliseconds} ms");
       }
+    }
+
+    private void UpdateFilters()
+    {
+      foreach (Entity entity in Updated.Get())
+      {
+        foreach (Filter filter in this.filters)
+        {
+          filter.OnComponentChanged(entity);
+        }
+      }
+      Updated.Clear();
     }
 
     public int currentTick { get; set; } = 0;

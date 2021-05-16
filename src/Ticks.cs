@@ -46,27 +46,32 @@ namespace Sim
 
     public static int NumberOfYears(float ticks)
     {
-      return (int)Math.Floor(ticks / ticksPerYear);
+      // Rely on int division to do a floor operation.
+      return (int)(ticks / ticksPerYear);
     }
 
     public static int NumberOfMonths(float ticks)
     {
-      return (int)Math.Floor(ticks / ticksPerMonth);
+      // Rely on int division to do a floor operation.
+      return (int)(ticks / ticksPerMonth);
     }
 
     public static int NumberOfDays(float ticks)
     {
-      return (int)Math.Floor(ticks / ticksPerDay);
+      // Rely on int division to do a floor operation.
+      return (int)(ticks / ticksPerDay);
     }
 
     public static int NumberOfHours(float ticks)
     {
-      return (int)Math.Floor(ticks / ticksPerHour);
+      // Rely on int division to do a floor operation.
+      return (int)(ticks / ticksPerHour);
     }
 
     public static int NumberOfMinutes(float ticks)
     {
-      return (int)Math.Floor(ticks / ticksPerMinute);
+      // Rely on int division to do a floor operation.
+      return (int)(ticks / ticksPerMinute);
     }
 
     private static string Pad(double value)
