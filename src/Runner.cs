@@ -9,12 +9,12 @@ namespace Sim
 {
   class Runner
   {
-    private IEnumerable<Systems.System> systems;
+    private IEnumerable<Ecs.System> systems;
     private IEnumerable<Entity> entities;
     private IEnumerable<Filter> filters;
     public const int TickSize = 1;
 
-    public Runner(IEnumerable<Systems.System> systems, IEnumerable<Entity> entities)
+    public Runner(IEnumerable<Ecs.System> systems, IEnumerable<Entity> entities)
     {
       this.systems = systems;
       this.entities = entities;
@@ -32,7 +32,7 @@ namespace Sim
         for (var tick = 0; tick < ticksPerYear; tick++)
         {
           UpdateFilters();
-          foreach (Systems.System system in systems)
+          foreach (Ecs.System system in systems)
           {
             system.Update(TickSize, currentTick);
           }

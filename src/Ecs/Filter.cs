@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using Sim.Ecs;
 
-namespace Sim.Filters
+namespace Sim.Ecs
 {
   class Filter
   {

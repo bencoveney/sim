@@ -4,7 +4,7 @@ using Sim.Filters;
 
 namespace Sim.Systems
 {
-  class PositionSystem : System
+  class PositionSystem : Ecs.System
   {
     private Filter filter = new Filter(
       new List<ComponentName> { ComponentName.Position }

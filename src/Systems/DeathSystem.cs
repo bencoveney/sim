@@ -4,7 +4,7 @@ using Sim.Filters;
 
 namespace Sim.Systems
 {
-  class DeathSystem : System
+  class DeathSystem : Ecs.System
   {
     private Filter filter = AliveFilter.Alive;
     public Filter GetFilter()

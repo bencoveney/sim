@@ -13,7 +13,7 @@ namespace Sim
 
       Logger.LogEntities("Before running", entities, start);
 
-      var systems = new List<Systems.System>()
+      var systems = new List<Ecs.System>()
       {
         new Systems.DeathSystem()
       };

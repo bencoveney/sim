@@ -1,6 +1,4 @@
-using Sim.Filters;
-
-namespace Sim.Systems
+namespace Sim.Ecs
 {
   interface System
   {
