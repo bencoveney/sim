@@ -1,4 +1,4 @@
-using Sim.Model;
+using Sim.Ecs;
 
 namespace Sim
 {

@@ -1,6 +1,6 @@
 using System;
+using Sim.Ecs;
 using Sim.Filters;
-using Sim.Model;
 
 namespace Sim.Systems
 {

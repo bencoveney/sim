@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using Sim.Model;
+using Sim.Ecs;
 
 namespace Sim.Factories
 {
