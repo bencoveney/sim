@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Sim.Logging;
 using Sim.World;
 
 namespace Sim

@@ -1,5 +1,6 @@
 using System;
 using Sim.Ecs;
+using Sim.Logging;
 
 namespace Sim.World
 {

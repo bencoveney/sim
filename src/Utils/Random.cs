@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Sim
+namespace Sim.Utils
 {
   class Random
   {

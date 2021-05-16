@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Sim.Ecs;
 
-namespace Sim
+namespace Sim.Logging
 {
   class Logger
   {

@@ -1,6 +1,6 @@
 using Sim.Ecs;
 
-namespace Sim
+namespace Sim.Logging
 {
   class Describe
   {

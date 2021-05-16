@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using Sim.Ecs;
 
-namespace Sim
+namespace Sim.Ecs
 {
   class Updated
   {
