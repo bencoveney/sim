@@ -4,27 +4,27 @@ namespace Sim.World
 {
   class LocationFactory
   {
-    public static Entity CreateWorld(EntityPool entityPool, string name)
+    public static EntityBuilder CreateWorld(EntityPool entityPool, string name)
     {
       return CreateLocation(entityPool, name);
     }
-    public static Entity CreateBuilding(EntityPool entityPool, string name, Entity parent)
+    public static EntityBuilder CreateBuilding(EntityPool entityPool, Entity parent, string name)
     {
-      var entity = CreateLocation(entityPool, name);
-      entity.AddComponent(CreateParent(parent));
-      return entity;
+      var builder = CreateLocation(entityPool, name);
+      CreateParent(builder, parent);
+      return builder;
     }
 
-    private static Entity CreateLocation(EntityPool entityPool, string name)
+    private static EntityBuilder CreateLocation(EntityPool entityPool, string name)
     {
-      var entity = entityPool.Create(EntityKind.Location.ToInt());
-      entity.AddComponent(CreateName(name));
-      return entity;
+      var builder = entityPool.CreateBuilder(EntityKind.Location.ToInt());
+      CreateName(builder, name);
+      return builder;
     }
 
-    private static Component CreateName(string locationName)
+    private static Component CreateName(EntityBuilder builder, string locationName)
     {
-      var component = new Component { Name = ComponentName.LocationName };
+      var component = builder.AddComponent(ComponentKind.LocationName.ToInt());
       component.AddString(new StringValue
       {
         Name = StringValueName.LocationName,
@@ -33,9 +33,9 @@ namespace Sim.World
       return component;
     }
 
-    private static Component CreateParent(Entity parent)
+    private static Component CreateParent(EntityBuilder builder, Entity parent)
     {
-      var component = new Component { Name = ComponentName.ParentLocation };
+      var component = builder.AddComponent(ComponentKind.ParentLocation.ToInt());
       component.AddEntity(new EntityValue
       {
         Name = EntityValueName.Entity,

@@ -14,33 +14,33 @@ namespace Sim.Logging
       foreach (var entity in entities)
       {
         Console.WriteLine($"{Environment.NewLine}{entity.Kind.ToEntityKind()}");
-        foreach (var component in entity.Components.Values)
+        foreach (var component in entity.ComponentsByKind.Values)
         {
-          switch (component.Name)
+          switch (component.Kind.ToComponentKind())
           {
-            case ComponentName.PersonName:
+            case ComponentKind.PersonName:
               Console.WriteLine($"- Name: {Describe.Component(component)}");
               break;
-            case ComponentName.Birth:
+            case ComponentKind.Birth:
               Console.WriteLine($"- Born: {Describe.Component(component)}");
               break;
-            case ComponentName.Death:
+            case ComponentKind.Death:
               Console.WriteLine($"- Died: {Describe.Component(component)}");
               break;
-            case ComponentName.LocationName:
+            case ComponentKind.LocationName:
               Console.WriteLine($"- Name: {Describe.Component(component)}");
               break;
-            case ComponentName.ParentLocation:
+            case ComponentKind.ParentLocation:
               Console.WriteLine($"- Is In: {Describe.Component(component)}");
               break;
-            case ComponentName.Position:
+            case ComponentKind.Position:
               Console.WriteLine($"- Is In: {Describe.Component(component)}");
               break;
-            case ComponentName.Home:
+            case ComponentKind.Home:
               Console.WriteLine($"- Home: {Describe.Component(component)}");
               break;
             default:
-              Console.WriteLine($"- {component.Name}");
+              Console.WriteLine($"- {component.Kind.ToComponentKind()}");
               foreach (var value in component.Bools.Values)
               {
                 Console.WriteLine($"  - {value.Name}: {value.Value}");

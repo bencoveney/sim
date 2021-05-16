@@ -10,14 +10,14 @@ namespace Sim
   class Runner
   {
     private IEnumerable<Ecs.System> systems;
-    private IEnumerable<Entity> entities;
+    private EntityPool entityPool;
     private IEnumerable<Filter> filters;
     public const int TickSize = 1;
 
-    public Runner(IEnumerable<Ecs.System> systems, IEnumerable<Entity> entities)
+    public Runner(EntityPool entityPool, IEnumerable<Ecs.System> systems)
     {
       this.systems = systems;
-      this.entities = entities;
+      this.entityPool = entityPool;
       this.filters = systems.Select(system => system.GetFilter()).ToList();
     }
 
@@ -34,13 +34,13 @@ namespace Sim
           UpdateFilters();
           foreach (Ecs.System system in systems)
           {
-            system.Update(TickSize, currentTick);
+            system.Update(entityPool, TickSize, currentTick);
           }
           // Should this be done before update?
           currentTick += TickSize;
         }
         sw.Stop();
-        Console.WriteLine($"Year {year} ran in {sw.ElapsedMilliseconds} ms - Population: {AliveFilter.Alive.GetEntities().Count()} - Total Entities: {entities.Count()}");
+        Console.WriteLine($"Year {year} ran in {sw.ElapsedMilliseconds} ms - Population: {AliveFilter.Alive.GetEntities().Count()} - Total Entities: {entityPool.GetEntities().Count()}");
       }
     }
 

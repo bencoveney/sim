@@ -12,11 +12,10 @@ namespace Sim.Ecs
 
     public uint Id { get; private set; }
     public int Kind { get; private set; }
-    public Dictionary<ComponentName, Component> Components { get; } = new Dictionary<ComponentName, Component>();
+    public Dictionary<int, Component> ComponentsByKind { get; } = new Dictionary<int, Component>();
     public void AddComponent(Component component)
     {
-      this.Components.Add(component.Name, component);
-      component.EntityId = this.Id;
+      this.ComponentsByKind.Add(component.Kind, component);
       Updated.EntityUpdated(this);
     }
   }

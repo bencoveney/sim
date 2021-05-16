@@ -5,17 +5,17 @@ namespace Sim.World
 {
   class PersonFactory
   {
-    public static Entity Create(EntityPool entityPool, int ageRange)
+    public static EntityBuilder Create(EntityPool entityPool, int ageRange)
     {
-      var entity = entityPool.Create(EntityKind.Person.ToInt());
-      entity.AddComponent(CreateName());
-      entity.AddComponent(CreateBirth(ageRange));
-      return entity;
+      var builder = entityPool.CreateBuilder(EntityKind.Person.ToInt());
+      CreateName(builder);
+      CreateBirth(builder, ageRange);
+      return builder;
     }
 
-    private static Component CreateName()
+    private static Component CreateName(EntityBuilder builder)
     {
-      var component = new Component { Name = ComponentName.PersonName };
+      var component = builder.AddComponent(ComponentKind.PersonName.ToInt());
       component.AddString(new StringValue
       {
         Name = StringValueName.FirstName,
@@ -29,9 +29,9 @@ namespace Sim.World
       return component;
     }
 
-    private static Component CreateBirth(int ageRange)
+    private static Component CreateBirth(EntityBuilder builder, int ageRange)
     {
-      var component = new Component { Name = ComponentName.Birth };
+      var component = builder.AddComponent(ComponentKind.Birth.ToInt());
       component.AddInt(new IntValue
       {
         Name = IntValueName.Tick,
@@ -40,9 +40,9 @@ namespace Sim.World
       return component;
     }
 
-    public static Component CreateDeath(int deathTick)
+    public static Component CreateDeath(EntityBuilder builder, int deathTick)
     {
-      var component = new Component { Name = ComponentName.Death };
+      var component = builder.AddComponent(ComponentKind.Death.ToInt());
       component.AddInt(new IntValue
       {
         Name = IntValueName.Tick,
@@ -51,9 +51,9 @@ namespace Sim.World
       return component;
     }
 
-    public static Component CreateHome(Entity position)
+    public static Component CreateHome(EntityBuilder builder, Entity position)
     {
-      var component = new Component { Name = ComponentName.Home };
+      var component = builder.AddComponent(ComponentKind.Home.ToInt());
       component.AddEntity(new EntityValue
       {
         Name = EntityValueName.Entity,
@@ -62,9 +62,9 @@ namespace Sim.World
       return component;
     }
 
-    public static Component CreatePosition(Entity position)
+    public static Component CreatePosition(EntityBuilder builder, Entity position)
     {
-      var component = new Component { Name = ComponentName.Position };
+      var component = builder.AddComponent(ComponentKind.Position.ToInt());
       component.AddEntity(new EntityValue
       {
         Name = EntityValueName.Entity,

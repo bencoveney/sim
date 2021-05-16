@@ -9,7 +9,7 @@ namespace Sim.Ecs
 
   public class IntValue
   {
-    public int ComponentId { get; set; }
+    public uint ComponentId { get; set; }
     public int IntValueId { get; set; }
     public IntValueName Name { get; set; }
     public int Value { get; set; }
@@ -25,7 +25,7 @@ namespace Sim.Ecs
 
   public class StringValue
   {
-    public int ComponentId { get; set; }
+    public uint ComponentId { get; set; }
     public int StringValueId { get; set; }
     public StringValueName Name { get; set; }
     public string Value { get; set; }
@@ -38,7 +38,7 @@ namespace Sim.Ecs
 
   public class FloatValue
   {
-    public int ComponentId { get; set; }
+    public uint ComponentId { get; set; }
     public int FloatValueId { get; set; }
     public FloatValueName Name { get; set; }
     public float Value { get; set; }
@@ -51,7 +51,7 @@ namespace Sim.Ecs
 
   public class BoolValue
   {
-    public int ComponentId { get; set; }
+    public uint ComponentId { get; set; }
     public int BoolValueId { get; set; }
     public BoolValueName Name { get; set; }
     public bool Value { get; set; }
@@ -63,7 +63,7 @@ namespace Sim.Ecs
   }
   public class EntityValue
   {
-    public int ComponentId { get; set; }
+    public uint ComponentId { get; set; }
     public int EntityValueId { get; set; }
     public EntityValueName Name { get; set; }
     public Entity Value { get; set; }

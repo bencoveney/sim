@@ -8,34 +8,24 @@ namespace Sim.World
 {
   class WorldFactory
   {
-    public static IEnumerable<Entity> Create(EntityPool entityPool, int ageInTicks, int towns, int population)
+    public static void Create(EntityPool entityPool, int ageInTicks, int towns, int population)
     {
-      var entities = new List<Entity>();
-
-      var world = LocationFactory.CreateWorld(entityPool, "World");
-      entities.Add(world);
-
-      entities.AddRange(Enumerable.Range(0, towns).SelectMany(it => CreateTown(entityPool, ageInTicks, world, population)));
-
-      return entities;
+      var world = LocationFactory.CreateWorld(entityPool, "World").Entity;
+      Range.To(towns).ForEach(it => CreateTown(entityPool, world, ageInTicks, population));
     }
 
-    private static IEnumerable<Entity> CreateTown(EntityPool entityPool, int ageInTicks, Entity world, int population)
+    private static void CreateTown(EntityPool entityPool, Entity world, int ageInTicks, int population)
     {
-      var entities = new List<Entity>();
+      var town = LocationFactory.CreateBuilding(entityPool, world, $"{Random.Name()} Town").Entity;
+      Range.To(population).ForEach(it => CreateInhabitant(entityPool, town, ageInTicks));
+    }
 
-      var town = LocationFactory.CreateBuilding(entityPool, $"{Random.Name()} Town", world);
-      entities.Add(town);
-
-      entities.AddRange(Enumerable.Range(0, population).SelectMany(it =>
-      {
-        var person = PersonFactory.Create(entityPool, ageInTicks);
-        var home = LocationFactory.CreateBuilding(entityPool, $"{Describe.Entity(person)}'s Home", town);
-        person.AddComponent(PersonFactory.CreatePosition(home));
-        person.AddComponent(PersonFactory.CreateHome(home));
-        return new List<Entity> { person, home };
-      }));
-      return entities;
+    private static void CreateInhabitant(EntityPool entityPool, Entity town, int ageInTicks)
+    {
+      var personBuilder = PersonFactory.Create(entityPool, ageInTicks);
+      var home = LocationFactory.CreateBuilding(entityPool, town, $"{Describe.Entity(personBuilder.Entity)}'s Home").Entity;
+      PersonFactory.CreatePosition(personBuilder, home);
+      PersonFactory.CreateHome(personBuilder, home);
     }
   }
 }

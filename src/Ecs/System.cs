@@ -3,6 +3,6 @@ namespace Sim.Ecs
   interface System
   {
     Filter GetFilter();
-    void Update(float deltaMinutes, float totalMinutes);
+    void Update(EntityPool entityPool, float deltaMinutes, float totalMinutes);
   }
 }

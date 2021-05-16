@@ -13,20 +13,20 @@ namespace Sim
 
       var entityPool = new EntityPool();
 
-      var entities = WorldFactory.Create(entityPool, (int)start, 3, 10);
+      WorldFactory.Create(entityPool, (int)start, 3, 10);
 
-      Logger.LogEntities("Before running", entities, start);
+      Logger.LogEntities("Before running", entityPool.GetEntities(), start);
 
       var systems = new List<Ecs.System>()
       {
         new DeathSystem()
       };
 
-      var runner = new Runner(systems, entities);
+      var runner = new Runner(entityPool, systems);
       runner.currentTick = (int)start;
       runner.runFor(100);
 
-      Logger.LogEntities("After running", entities, runner.currentTick);
+      Logger.LogEntities("After running", entityPool.GetEntities(), runner.currentTick);
     }
   }
 }

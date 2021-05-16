@@ -2,23 +2,16 @@ using System.Collections.Generic;
 
 namespace Sim.Ecs
 {
-  public enum ComponentName
-  {
-    None = 0,
-    PersonName = 1,
-    Birth = 2,
-    Death = 3,
-    LocationName = 4,
-    ParentLocation = 5,
-    Position = 6,
-    Home = 7,
-  }
-
   public class Component
   {
-    public uint EntityId { get; set; }
-    public int ComponentId { get; set; }
-    public ComponentName Name { get; set; }
+    public Component(uint id, int kind)
+    {
+      this.Id = id;
+      this.Kind = kind;
+    }
+
+    public uint Id { get; private set; }
+    public int Kind { get; set; }
     public Dictionary<IntValueName, IntValue> Ints { get; } = new Dictionary<IntValueName, IntValue>();
     public Dictionary<StringValueName, StringValue> Strings { get; } = new Dictionary<StringValueName, StringValue>();
     public Dictionary<FloatValueName, FloatValue> Floats { get; } = new Dictionary<FloatValueName, FloatValue>();
@@ -27,27 +20,27 @@ namespace Sim.Ecs
     public void AddInt(IntValue intValue)
     {
       this.Ints.Add(intValue.Name, intValue);
-      intValue.ComponentId = this.ComponentId;
+      intValue.ComponentId = this.Id;
     }
     public void AddString(StringValue stringValue)
     {
       this.Strings.Add(stringValue.Name, stringValue);
-      stringValue.ComponentId = this.ComponentId;
+      stringValue.ComponentId = this.Id;
     }
     public void AddFloat(FloatValue floatValue)
     {
       this.Floats.Add(floatValue.Name, floatValue);
-      floatValue.ComponentId = this.ComponentId;
+      floatValue.ComponentId = this.Id;
     }
     public void AddBool(BoolValue boolValue)
     {
       this.Bools.Add(boolValue.Name, boolValue);
-      boolValue.ComponentId = this.ComponentId;
+      boolValue.ComponentId = this.Id;
     }
     public void AddEntity(EntityValue entityValue)
     {
       this.Entities.Add(entityValue.Name, entityValue);
-      entityValue.ComponentId = this.ComponentId;
+      entityValue.ComponentId = this.Id;
     }
   }
 }

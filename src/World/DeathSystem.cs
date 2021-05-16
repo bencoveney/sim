@@ -11,16 +11,16 @@ namespace Sim.World
     {
       return this.filter;
     }
-    public void Update(float deltaTime, float currentTick)
+    public void Update(EntityPool entityPool, float deltaTime, float currentTick)
     {
       foreach (Entity entity in this.filter.GetEntities())
       {
-        var age = currentTick - entity.Components[ComponentName.Birth].Ints[IntValueName.Tick].Value;
+        var age = currentTick - entity.ComponentsByKind[ComponentKind.Birth.ToInt()].Ints[IntValueName.Tick].Value;
 
         if (Ticks.NumberOfYears(age) >= 80)
         {
           Console.WriteLine($"{Describe.Entity(entity)} has died on {Ticks.ToDateString(currentTick)}");
-          entity.AddComponent(PersonFactory.CreateDeath((int)currentTick));
+          PersonFactory.CreateDeath(entityPool.CreateBuilder(entity), (int)currentTick);
         }
       }
     }
