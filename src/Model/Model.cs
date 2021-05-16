@@ -59,6 +59,11 @@ namespace Sim.Model
     public Entity Parent { get; set; }
     [NotMapped]
     public Dictionary<ComponentName, Component> Components { get; } = new Dictionary<ComponentName, Component>();
+    public void AddComponent(Component component)
+    {
+      this.Components.Add(component.Name, component);
+      component.EntityId = this.EntityId;
+    }
   }
 
   public enum ComponentName
@@ -71,16 +76,37 @@ namespace Sim.Model
 
   public class Component
   {
+    public int EntityId { get; set; }
     public int ComponentId { get; set; }
     public ComponentName Name { get; set; }
     [NotMapped]
-    public Dictionary<IntValueName, IntValue> IntValues { get; } = new Dictionary<IntValueName, IntValue>();
+    public Dictionary<IntValueName, IntValue> Ints { get; } = new Dictionary<IntValueName, IntValue>();
     [NotMapped]
-    public Dictionary<StringValueName, StringValue> StringValues { get; } = new Dictionary<StringValueName, StringValue>();
+    public Dictionary<StringValueName, StringValue> Strings { get; } = new Dictionary<StringValueName, StringValue>();
     [NotMapped]
-    public Dictionary<FloatValueName, FloatValue> FloatValues { get; } = new Dictionary<FloatValueName, FloatValue>();
+    public Dictionary<FloatValueName, FloatValue> Floats { get; } = new Dictionary<FloatValueName, FloatValue>();
     [NotMapped]
-    public Dictionary<BoolValueName, BoolValue> BoolValues { get; } = new Dictionary<BoolValueName, BoolValue>();
+    public Dictionary<BoolValueName, BoolValue> Bools { get; } = new Dictionary<BoolValueName, BoolValue>();
+    public void AddInt(IntValue intValue)
+    {
+      this.Ints.Add(intValue.Name, intValue);
+      intValue.ComponentId = this.ComponentId;
+    }
+    public void AddString(StringValue stringValue)
+    {
+      this.Strings.Add(stringValue.Name, stringValue);
+      stringValue.ComponentId = this.ComponentId;
+    }
+    public void AddFloat(FloatValue floatValue)
+    {
+      this.Floats.Add(floatValue.Name, floatValue);
+      floatValue.ComponentId = this.ComponentId;
+    }
+    public void AddBool(BoolValue boolValue)
+    {
+      this.Bools.Add(boolValue.Name, boolValue);
+      boolValue.ComponentId = this.ComponentId;
+    }
   }
 
   public enum IntValueName
@@ -91,6 +117,7 @@ namespace Sim.Model
 
   public class IntValue
   {
+    public int ComponentId { get; set; }
     public int IntValueId { get; set; }
     public IntValueName Name { get; set; }
     public int Value { get; set; }
@@ -105,6 +132,7 @@ namespace Sim.Model
 
   public class StringValue
   {
+    public int ComponentId { get; set; }
     public int StringValueId { get; set; }
     public StringValueName Name { get; set; }
     public string Value { get; set; }
@@ -117,6 +145,7 @@ namespace Sim.Model
 
   public class FloatValue
   {
+    public int ComponentId { get; set; }
     public int FloatValueId { get; set; }
     public FloatValueName Name { get; set; }
     public float Value { get; set; }
@@ -129,6 +158,7 @@ namespace Sim.Model
 
   public class BoolValue
   {
+    public int ComponentId { get; set; }
     public int BoolValueId { get; set; }
     public BoolValueName Name { get; set; }
     public bool Value { get; set; }

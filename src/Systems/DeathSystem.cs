@@ -21,7 +21,7 @@ namespace Sim.Systems
         }
 
         var ageComponent = entity.Components[ComponentName.Birth];
-        var birthTick = entity.Components[ComponentName.Birth].IntValues[IntValueName.Tick];
+        var birthTick = entity.Components[ComponentName.Birth].Ints[IntValueName.Tick];
 
         var age = currentTick - birthTick.Value;
 

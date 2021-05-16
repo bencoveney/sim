@@ -30,19 +30,19 @@ namespace Sim
               break;
             default:
               Console.WriteLine($"- {component.Name}");
-              foreach (var value in component.BoolValues.Values)
+              foreach (var value in component.Bools.Values)
               {
                 Console.WriteLine($"  - {value.Name}: {value.Value}");
               }
-              foreach (var value in component.FloatValues.Values)
+              foreach (var value in component.Floats.Values)
               {
                 Console.WriteLine($"  - {value.Name}: {value.Value}");
               }
-              foreach (var value in component.IntValues.Values)
+              foreach (var value in component.Ints.Values)
               {
                 Console.WriteLine($"  - {value.Name}: {value.Value}");
               }
-              foreach (var value in component.StringValues.Values)
+              foreach (var value in component.Strings.Values)
               {
                 Console.WriteLine($"  - {value.Name}: {value.Value}");
               }
@@ -54,12 +54,12 @@ namespace Sim
 
     private static int GetIntValue(Component component, IntValueName name)
     {
-      return component.IntValues[name].Value;
+      return component.Ints[name].Value;
     }
 
     private static string GetStringValue(Component component, StringValueName name)
     {
-      return component.StringValues[name].Value;
+      return component.Strings[name].Value;
     }
   }
 }

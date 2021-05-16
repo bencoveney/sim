@@ -15,64 +15,48 @@ namespace Sim.Factories
 
     public static Entity Create(int ageRange)
     {
-      return new Entity
-      {
-        Name = EntityName.Person,
-        Components = {
-          [ComponentName.Name] = CreateName(),
-          [ComponentName.Birth] = CreateBirth(ageRange)
-        }
-      };
+      var entity = new Entity { Name = EntityName.Person };
+      entity.AddComponent(CreateName());
+      entity.AddComponent(CreateBirth(ageRange));
+      return entity;
     }
 
     private static Component CreateName()
     {
-      return new Component
+      var component = new Component { Name = ComponentName.Name };
+      component.AddString(new StringValue
       {
-        Name = ComponentName.Name,
-        StringValues = {
-          [StringValueName.FirstName] = new StringValue
-          {
-            Name = StringValueName.FirstName,
-            Value = Random.Pick(names)
-          },
-          [StringValueName.Surname] = new StringValue
-          {
-            Name = StringValueName.Surname,
-            Value = Random.Pick(names)
-          },
-        }
-      };
+        Name = StringValueName.FirstName,
+        Value = Random.Pick(names)
+      });
+      component.AddString(new StringValue
+      {
+        Name = StringValueName.Surname,
+        Value = Random.Pick(names)
+      });
+      return component;
     }
 
     private static Component CreateBirth(int ageRange)
     {
-      return new Component
+      var component = new Component { Name = ComponentName.Birth };
+      component.AddInt(new IntValue
       {
-        Name = ComponentName.Birth,
-        IntValues = {
-          [IntValueName.Tick] = new IntValue
-          {
-            Name = IntValueName.Tick,
-            Value = Random.random.Next(ageRange)
-          }
-        }
-      };
+        Name = IntValueName.Tick,
+        Value = Random.random.Next(ageRange)
+      });
+      return component;
     }
 
     public static Component CreateDeath(int deathTick)
     {
-      return new Component
+      var component = new Component { Name = ComponentName.Death };
+      component.AddInt(new IntValue
       {
-        Name = ComponentName.Death,
-        IntValues = {
-          [IntValueName.Tick] = new IntValue
-          {
-            Name = IntValueName.Tick,
-            Value = deathTick
-          }
-        }
-      };
+        Name = IntValueName.Tick,
+        Value = deathTick
+      });
+      return component;
     }
   }
 }
