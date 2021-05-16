@@ -5,7 +5,7 @@ namespace Sim.Systems
 {
   class AgeSystem : System
   {
-    public void Update(float deltaTime, List<Entity> entities)
+    public void Update(float deltaTime, float totalTime, List<Entity> entities)
     {
       // var relevant = entities.FindAll(entity => entity.Components.Exists(component => component.Name == "Age"));
 

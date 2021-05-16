@@ -22,8 +22,11 @@ namespace Sim
               break;
             case "Age":
               var birthTick = GetIntValue(component, "BirthTick");
-              var ageTicks = currentTick - birthTick;
-              Console.WriteLine($"- Age: {Ticks.ToAbsString(ageTicks)}");
+              Console.WriteLine($"- Born: {Ticks.ToDateString(birthTick)}");
+              break;
+            case "Death":
+              var deathTick = GetIntValue(component, "DeathTick");
+              Console.WriteLine($"- Died: {Ticks.ToDateString(deathTick)}");
               break;
             default:
               Console.WriteLine($"- {component.Name}");

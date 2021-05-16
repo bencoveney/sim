@@ -9,6 +9,7 @@ namespace Sim
   {
     private List<Systems.System> systems;
     private List<Entity> entities;
+    public const int TickSize = 1;
 
     public Runner(List<Systems.System> systems, List<Entity> entities)
     {
@@ -28,9 +29,10 @@ namespace Sim
         {
           systems.ForEach(system =>
           {
-            system.Update(1, entities);
+            system.Update(TickSize, currentTick, entities);
           });
-          currentTick++;
+          // Should this be done before update?
+          currentTick += TickSize;
         }
         sw.Stop();
         Console.WriteLine($"Year {year} ran in {sw.ElapsedMilliseconds} ms");

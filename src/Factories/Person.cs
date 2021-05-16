@@ -59,5 +59,20 @@ namespace Sim.Factories
         }
       };
     }
+
+    public static Component CreateDeath(int deathTick)
+    {
+      return new Component
+      {
+        Name = "Death",
+        IntValues = {
+          new IntValue
+          {
+            Name = "DeathTick",
+            Value = deathTick
+          }
+        }
+      };
+    }
   }
 }

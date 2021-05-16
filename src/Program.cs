@@ -24,7 +24,8 @@ namespace Sim
         Logger.LogEntities("Before running", entities, start);
 
         var systems = new List<Systems.System>() {
-          new Systems.AgeSystem()
+          new Systems.AgeSystem(),
+          new Systems.DeathSystem()
         };
 
         var runner = new Runner(systems, entities);
