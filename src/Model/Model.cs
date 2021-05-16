@@ -4,24 +4,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Sim.Model
 {
-  enum EntityTypes
-  {
-    Person
-  }
-
-  enum ComponentTypes
-  {
-    Person_Name,
-    Person_Age
-  }
-
-  enum ValueTypes
-  {
-    Person_Name_FirstName,
-    Person_Name_Surname,
-    Person_Age_Days
-  }
-
   public class SimContext : DbContext
   {
     private static bool _created = false;
@@ -79,6 +61,7 @@ namespace Sim.Model
     public int EntityId { get; set; }
     public int ComponentId { get; set; }
     public ComponentName Name { get; set; }
+    // How to ensure these get serialised?
     [NotMapped]
     public Dictionary<IntValueName, IntValue> Ints { get; } = new Dictionary<IntValueName, IntValue>();
     [NotMapped]
