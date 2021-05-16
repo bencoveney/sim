@@ -17,8 +17,7 @@ namespace Sim.World
 
     private static Entity CreateLocation(EntityPool entityPool, string name)
     {
-      var entity = entityPool.Create();
-      entity.Name = EntityName.Location;
+      var entity = entityPool.Create(EntityKind.Location.ToInt());
       entity.AddComponent(CreateName(name));
       return entity;
     }

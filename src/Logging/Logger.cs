@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Sim.Ecs;
+using Sim.World;
 
 namespace Sim.Logging
 {
@@ -12,7 +13,7 @@ namespace Sim.Logging
 
       foreach (var entity in entities)
       {
-        Console.WriteLine($"{Environment.NewLine}{entity.Name}");
+        Console.WriteLine($"{Environment.NewLine}{entity.Kind.ToEntityKind()}");
         foreach (var component in entity.Components.Values)
         {
           switch (component.Name)

@@ -7,10 +7,10 @@ namespace Sim.Ecs
     private SortedDictionary<uint, Entity> entities = new SortedDictionary<uint, Entity>();
     private IdGenerator idGenerator = new IdGenerator();
 
-    public Entity Create()
+    public Entity Create(int kind)
     {
       var id = idGenerator.getNext();
-      var entity = new Entity(id);
+      var entity = new Entity(id, kind);
       this.entities.Add(id, entity);
       return entity;
     }

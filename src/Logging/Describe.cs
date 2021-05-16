@@ -1,4 +1,5 @@
 using Sim.Ecs;
+using Sim.World;
 
 namespace Sim.Logging
 {
@@ -6,11 +7,11 @@ namespace Sim.Logging
   {
     public static string Entity(Entity entity)
     {
-      switch (entity.Name)
+      switch (entity.Kind.ToEntityKind())
       {
-        case EntityName.Person:
+        case EntityKind.Person:
           return Component(entity.Components[ComponentName.PersonName]);
-        case EntityName.Location:
+        case EntityKind.Location:
           return Component(entity.Components[ComponentName.LocationName]);
         default:
           return "[COULD NOT DESCRIBE ENTITY]";

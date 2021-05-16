@@ -7,8 +7,7 @@ namespace Sim.World
   {
     public static Entity Create(EntityPool entityPool, int ageRange)
     {
-      var entity = entityPool.Create();
-      entity.Name = EntityName.Person;
+      var entity = entityPool.Create(EntityKind.Person.ToInt());
       entity.AddComponent(CreateName());
       entity.AddComponent(CreateBirth(ageRange));
       return entity;
