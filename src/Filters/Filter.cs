@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Sim.Model;
 
-namespace Sim
+namespace Sim.Filters
 {
   class Filter
   {
@@ -20,6 +20,15 @@ namespace Sim
         this.excludes.Add(component);
       }
     }
+
+    public Filter(IEnumerable<ComponentName> includes)
+    {
+      foreach (ComponentName component in includes)
+      {
+        this.includes.Add(component);
+      }
+    }
+
     public void OnComponentChanged(Entity entity)
     {
       if (

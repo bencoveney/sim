@@ -4,16 +4,21 @@ namespace Sim.Factories
 {
   class Location
   {
-    public static Entity Create(string name)
+    public static Entity CreateWorld(string name)
+    {
+      return CreateLocation(name);
+    }
+    public static Entity CreateBuilding(string name, Entity parent)
+    {
+      var entity = CreateLocation(name);
+      entity.AddComponent(CreateParent(parent));
+      return entity;
+    }
+
+    private static Entity CreateLocation(string name)
     {
       var entity = new Entity { Name = EntityName.Location };
       entity.AddComponent(CreateName(name));
-      return entity;
-    }
-    public static Entity Create(string name, Entity parent)
-    {
-      var entity = Create(name);
-      entity.AddComponent(CreateParent(parent));
       return entity;
     }
 

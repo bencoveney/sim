@@ -1,15 +1,12 @@
 using System;
-using System.Collections.Generic;
+using Sim.Filters;
 using Sim.Model;
 
 namespace Sim.Systems
 {
   class DeathSystem : System
   {
-    private Filter filter = new Filter(
-      new List<ComponentName> { ComponentName.Birth },
-      new List<ComponentName> { ComponentName.Death }
-    );
+    private Filter filter = AliveFilter.Alive;
     public Filter GetFilter()
     {
       return this.filter;
@@ -22,7 +19,7 @@ namespace Sim.Systems
 
         if (Ticks.NumberOfYears(age) >= 80)
         {
-          Console.WriteLine($"Death");
+          Console.WriteLine($"{Describe.Entity(entity)} has died on {Ticks.ToDateString(currentTick)}");
           entity.AddComponent(Factories.Person.CreateDeath((int)currentTick));
         }
       }

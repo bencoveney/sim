@@ -10,7 +10,7 @@ namespace Sim.Factories
     {
       var entities = new List<Entity>();
 
-      var world = Location.Create("World");
+      var world = Location.CreateWorld("World");
       entities.Add(world);
 
       entities.AddRange(Enumerable.Range(0, towns).SelectMany(it => CreateTown(ageInTicks, world, population)));
@@ -22,13 +22,13 @@ namespace Sim.Factories
     {
       var entities = new List<Entity>();
 
-      var town = Location.Create($"{Random.Name()} Town", world);
+      var town = Location.CreateBuilding($"{Random.Name()} Town", world);
       entities.Add(town);
 
       entities.AddRange(Enumerable.Range(0, population).SelectMany(it =>
       {
         var person = Person.Create(ageInTicks);
-        var home = Location.Create($"{Describe.Entity(person)}'s Home", town);
+        var home = Location.CreateBuilding($"{Describe.Entity(person)}'s Home", town);
         person.AddComponent(Person.CreatePosition(home));
         person.AddComponent(Person.CreateHome(home));
         return new List<Entity> { person, home };

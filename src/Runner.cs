@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Sim.Filters;
 using Sim.Model;
 
 namespace Sim
@@ -39,7 +40,7 @@ namespace Sim
           currentTick += TickSize;
         }
         sw.Stop();
-        Console.WriteLine($"Year {year} ran in {sw.ElapsedMilliseconds} ms - {entities.Count()} entities");
+        Console.WriteLine($"Year {year} ran in {sw.ElapsedMilliseconds} ms - Population: {AliveFilter.Alive.GetEntities().Count()} - Total Entities: {entities.Count()}");
       }
     }
 
