@@ -32,6 +32,12 @@ namespace Sim
             case ComponentName.ParentLocation:
               Console.WriteLine($"- Is In: {Describe.Component(component)}");
               break;
+            case ComponentName.Position:
+              Console.WriteLine($"- Is In: {Describe.Component(component)}");
+              break;
+            case ComponentName.Home:
+              Console.WriteLine($"- Home: {Describe.Component(component)}");
+              break;
             default:
               Console.WriteLine($"- {component.Name}");
               foreach (var value in component.Bools.Values)

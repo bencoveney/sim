@@ -30,6 +30,8 @@ namespace Sim
         case ComponentName.LocationName:
           return Describe.GetStringValue(component, StringValueName.LocationName);
         case ComponentName.ParentLocation:
+        case ComponentName.Position:
+        case ComponentName.Home:
           return Entity(component.Entities[EntityValueName.Entity].Value);
         default:
           return "[COULD NOT DESCRIBE COMPONENT]";

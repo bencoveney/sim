@@ -58,7 +58,9 @@ namespace Sim.Model
 
     LocationName = 4,
 
-    ParentLocation = 5
+    ParentLocation = 5,
+    Position = 6,
+    Home = 7,
   }
 
   public class Component

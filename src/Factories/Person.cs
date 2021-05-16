@@ -55,5 +55,27 @@ namespace Sim.Factories
       });
       return component;
     }
+
+    public static Component CreateHome(Entity position)
+    {
+      var component = new Component { Name = ComponentName.Home };
+      component.AddEntity(new EntityValue
+      {
+        Name = EntityValueName.Entity,
+        Value = position
+      });
+      return component;
+    }
+
+    public static Component CreatePosition(Entity position)
+    {
+      var component = new Component { Name = ComponentName.Position };
+      component.AddEntity(new EntityValue
+      {
+        Name = EntityValueName.Entity,
+        Value = position
+      });
+      return component;
+    }
   }
 }

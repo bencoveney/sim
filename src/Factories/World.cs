@@ -29,6 +29,8 @@ namespace Sim.Factories
       {
         var person = Person.Create(ageInTicks);
         var home = Location.Create($"{Describe.Entity(person)}'s Home", town);
+        person.AddComponent(Person.CreatePosition(home));
+        person.AddComponent(Person.CreateHome(home));
         return new List<Entity> { person, home };
       }));
       return entities;
