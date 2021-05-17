@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Sim.Ecs;
 using Sim.Logging;
 
@@ -7,20 +8,23 @@ namespace Sim.World
   class DeathSystem : Ecs.System
   {
     private Filter filter = AliveFilter.Alive;
+    private int deathAge = Ticks.From(80, 0, 0, 0, 0);
     public Filter GetFilter()
     {
       return this.filter;
     }
-    public void Update(EntityPool entityPool, float deltaTime, float currentTick)
+    public void Update(EntityPool entityPool, int deltaTicks, int currentTick)
     {
-      foreach (Entity entity in this.filter.GetEntities())
+      var entities = this.filter.GetEntities();
+      var count = entities.Count();
+      for (int i = 0; i < count; i++)
       {
-        var age = currentTick - entity.ComponentsByKind[ComponentKind.Birth.ToInt()].Ints[IntKind.Tick.ToInt()].Value;
+        var age = currentTick - entities[i].ComponentsByKind[2].Ints[1].Value;
 
-        if (Ticks.NumberOfYears(age) >= 80)
+        if (age > deathAge)
         {
-          Console.WriteLine($"{Describe.Entity(entity)} has died on {Ticks.ToDateString(currentTick)}");
-          PersonFactory.CreateDeath(entityPool.CreateBuilder(entity), (int)currentTick);
+          // Console.WriteLine($"{Describe.Entity(entities[i])} has died on {Ticks.ToDateString(currentTick)}");
+          PersonFactory.CreateDeath(entityPool.CreateBuilder(entities[i]), currentTick);
         }
       }
     }

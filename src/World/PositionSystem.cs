@@ -12,12 +12,8 @@ namespace Sim.World
     {
       return this.filter;
     }
-    public void Update(EntityPool entityPool, float deltaTime, float currentTick)
+    public void Update(EntityPool entityPool, int deltaTicks, int currentTick)
     {
-      foreach (Entity entity in this.filter.GetEntities())
-      {
-
-      }
     }
   }
 }

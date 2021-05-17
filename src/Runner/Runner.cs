@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
 using Sim.Ecs;
 using Sim.World;
 
@@ -9,14 +10,14 @@ namespace Sim
 {
   class Runner
   {
-    private IEnumerable<Ecs.System> systems;
+    private List<TimedSystem> systems;
     private EntityPool entityPool;
     private IEnumerable<Filter> filters;
     public const int TickSize = 1;
 
     public Runner(EntityPool entityPool, IEnumerable<Ecs.System> systems)
     {
-      this.systems = systems;
+      this.systems = systems.Select(system => new TimedSystem() { Stopwatch = new Stopwatch(), System = system, Name = system.GetType().Name }).ToList();
       this.entityPool = entityPool;
       this.filters = systems.Select(system => system.GetFilter()).ToList();
     }
@@ -32,15 +33,28 @@ namespace Sim
         for (var tick = 0; tick < ticksPerYear; tick++)
         {
           UpdateFilters();
-          foreach (Ecs.System system in systems)
+          foreach (TimedSystem system in systems)
           {
-            system.Update(entityPool, TickSize, currentTick);
+            system.Stopwatch.Start();
+            system.System.Update(entityPool, TickSize, currentTick);
+            system.Stopwatch.Stop();
           }
           // Should this be done before update?
           currentTick += TickSize;
         }
         sw.Stop();
-        Console.WriteLine($"Year {year} ran in {sw.ElapsedMilliseconds} ms - Population: {AliveFilter.Alive.GetEntities().Count()} - Total Entities: {entityPool.GetEntities().Count()}");
+        var builder = new StringBuilder();
+        builder.AppendLine($"{Environment.NewLine}Year {year}");
+        builder.AppendLine($"- Ran in {sw.ElapsedMilliseconds} ms");
+        builder.AppendLine($"- Population: {AliveFilter.Alive.GetEntities().Count()}");
+        builder.AppendLine($"- Total Entities: { entityPool.GetEntities().Count()}");
+        builder.AppendLine($"- Systems:");
+        foreach (TimedSystem system in systems)
+        {
+          builder.AppendLine($"  - {system.Name} ran in {system.Stopwatch.ElapsedMilliseconds}ms");
+          system.Stopwatch.Reset();
+        }
+        Console.WriteLine(builder.ToString());
       }
     }
 
@@ -57,5 +71,12 @@ namespace Sim
     }
 
     public int currentTick { get; set; } = 0;
+
+    private class TimedSystem
+    {
+      public Ecs.System System;
+      public Stopwatch Stopwatch;
+      public string Name;
+    }
   }
 }

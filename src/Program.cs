@@ -13,17 +13,18 @@ namespace Sim
 
       var entityPool = new EntityPool();
 
-      WorldFactory.Create(entityPool, (int)start, 3, 10);
+      WorldFactory.Create(entityPool, start, 3, 10);
 
       Logger.LogEntities("Before running", entityPool.GetEntities(), start);
 
       var systems = new List<Ecs.System>()
       {
-        new DeathSystem()
+        new DeathSystem(),
+        new PositionSystem()
       };
 
       var runner = new Runner(entityPool, systems);
-      runner.currentTick = (int)start;
+      runner.currentTick = start;
       runner.runFor(100);
 
       Logger.LogEntities("After running", entityPool.GetEntities(), runner.currentTick);

@@ -47,7 +47,7 @@ namespace Sim.Ecs
         }
       }
     }
-    public IEnumerable<Entity> GetEntities()
+    public IList<Entity> GetEntities()
     {
       return this.cache;
     }

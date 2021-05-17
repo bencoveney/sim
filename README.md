@@ -1,5 +1,8 @@
 # Sim
 
+dotnet run
+dotnet run --configuration Release
+
 ## Use cases to support
 
 A person is alive

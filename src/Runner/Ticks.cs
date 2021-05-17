@@ -10,19 +10,19 @@ namespace Sim
     private static int ticksPerMonth = 30 * ticksPerDay;
     private static int ticksPerYear = 12 * ticksPerMonth;
 
-    public static string ToDateString(float ticks)
+    public static string ToDateString(int ticks)
     {
       var parts = ToParts(ticks);
       return $"{Pad(parts.Days)}/{Pad(parts.Months)}/{Pad(parts.Years)} {Pad(parts.Hours)}:{Pad(parts.Minutes)}";
     }
 
-    public static string ToAbsString(float ticks)
+    public static string ToAbsString(int ticks)
     {
       var parts = ToParts(ticks);
       return $"{parts.Years} years, {parts.Months} months, {parts.Days} days, {parts.Hours} hours, {parts.Minutes} minutes";
     }
 
-    public static TickParts ToParts(float ticks)
+    public static TickParts ToParts(int ticks)
     {
       var years = NumberOfYears(ticks);
       var remainingAfterYears = ticks - (years * ticksPerYear);
@@ -31,47 +31,46 @@ namespace Sim
       var days = NumberOfDays(remainingAfterMonths);
       var remainingAfterDays = remainingAfterMonths - (days * ticksPerDay);
       var hours = NumberOfHours(remainingAfterDays);
-      var remainingAfterHours = remainingAfterDays - (hours * ticksPerHour);
-      var minutes = Math.Floor(remainingAfterHours);
+      var minutes = remainingAfterDays - (hours * ticksPerHour);
 
       return new TickParts()
       {
-        Years = (int)years,
-        Months = (int)months,
-        Days = (int)days,
-        Hours = (int)hours,
-        Minutes = (int)minutes,
+        Years = years,
+        Months = months,
+        Days = days,
+        Hours = hours,
+        Minutes = minutes,
       };
     }
 
-    public static int NumberOfYears(float ticks)
+    public static int NumberOfYears(int ticks)
     {
       // Rely on int division to do a floor operation.
-      return (int)(ticks / ticksPerYear);
+      return ticks / ticksPerYear;
     }
 
-    public static int NumberOfMonths(float ticks)
+    public static int NumberOfMonths(int ticks)
     {
       // Rely on int division to do a floor operation.
-      return (int)(ticks / ticksPerMonth);
+      return ticks / ticksPerMonth;
     }
 
-    public static int NumberOfDays(float ticks)
+    public static int NumberOfDays(int ticks)
     {
       // Rely on int division to do a floor operation.
-      return (int)(ticks / ticksPerDay);
+      return ticks / ticksPerDay;
     }
 
-    public static int NumberOfHours(float ticks)
+    public static int NumberOfHours(int ticks)
     {
       // Rely on int division to do a floor operation.
-      return (int)(ticks / ticksPerHour);
+      return ticks / ticksPerHour;
     }
 
-    public static int NumberOfMinutes(float ticks)
+    public static int NumberOfMinutes(int ticks)
     {
       // Rely on int division to do a floor operation.
-      return (int)(ticks / ticksPerMinute);
+      return ticks / ticksPerMinute;
     }
 
     private static string Pad(double value)
@@ -79,7 +78,7 @@ namespace Sim
       return value.ToString().PadLeft(2, '0');
     }
 
-    public static float From(int years, int months, int days, int hours, int minutes)
+    public static int From(int years, int months, int days, int hours, int minutes)
     {
       return years * ticksPerYear + months * ticksPerMonth + days * ticksPerDay + hours * ticksPerHour + minutes * ticksPerMinute;
     }
