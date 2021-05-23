@@ -6,41 +6,37 @@ using System.Text;
 using Sim.Ecs;
 using Sim.World;
 
-namespace Sim
+namespace Sim.Runner
 {
   class Runner
   {
-    private List<TimedSystem> systems;
     private EntityPool entityPool;
-    private IEnumerable<Filter> filters;
+    private List<Filter> filters = new List<Filter>();
+    private Dictionary<Frequency, List<TimedSystem>> systems = new Dictionary<Frequency, List<TimedSystem>>();
     public const int TickSize = 1;
 
-    public Runner(EntityPool entityPool, IEnumerable<Ecs.System> systems)
+    public Runner(EntityPool entityPool)
     {
-      this.systems = systems.Select(system => new TimedSystem() { Stopwatch = new Stopwatch(), System = system, Name = system.GetType().Name }).ToList();
       this.entityPool = entityPool;
-      this.filters = systems.Select(system => system.GetFilter()).ToList();
+      foreach (Frequency frequency in (Frequency[])Enum.GetValues(typeof(Frequency)))
+      {
+        systems[frequency] = new List<TimedSystem>();
+      }
     }
-
+    public void AddSystem(Ecs.System system, Frequency frequency)
+    {
+      systems[frequency].Add(new TimedSystem() { Stopwatch = new Stopwatch(), System = system, Name = system.GetType().Name });
+      this.filters.Add(system.GetFilter());
+    }
     public void runFor(int years)
     {
-      var ticksPerYear = Ticks.From(1, 0, 0, 0, 0);
-
       Stopwatch sw = new Stopwatch();
       for (var year = 0; year < years; year++)
       {
         sw.Restart();
-        for (var tick = 0; tick < ticksPerYear; tick++)
+        for (var tick = 0; tick < Ticks.PerYear; tick += TickSize)
         {
-          UpdateFilters();
-          foreach (TimedSystem system in systems)
-          {
-            system.Stopwatch.Start();
-            system.System.Update(entityPool, TickSize, currentTick);
-            system.Stopwatch.Stop();
-          }
-          // Should this be done before update?
-          currentTick += TickSize;
+          this.RunTick();
         }
         sw.Stop();
         var builder = new StringBuilder();
@@ -49,7 +45,7 @@ namespace Sim
         builder.AppendLine($"- Population: {AliveFilter.Alive.GetEntities().Count()}");
         builder.AppendLine($"- Total Entities: { entityPool.GetEntities().Count()}");
         builder.AppendLine($"- Systems:");
-        foreach (TimedSystem system in systems)
+        foreach (TimedSystem system in systems.Values.SelectMany(systems => systems))
         {
           builder.AppendLine($"  - {system.Name} ran in {system.Stopwatch.ElapsedMilliseconds}ms");
           system.Stopwatch.Reset();
@@ -68,6 +64,47 @@ namespace Sim
         }
       }
       Updated.Clear();
+    }
+
+    private void RunTick()
+    {
+      UpdateFilters();
+      currentTick += TickSize;
+      if (currentTick % Ticks.PerYear == 0)
+      {
+        RunSystems(this.systems[Frequency.Year]);
+      }
+      if (currentTick % Ticks.PerMonth == 0)
+      {
+        RunSystems(this.systems[Frequency.Month]);
+      }
+      if (currentTick % Ticks.PerDay == 0)
+      {
+        RunSystems(this.systems[Frequency.Day]);
+      }
+      if (currentTick % Ticks.PerHour == 0)
+      {
+        RunSystems(this.systems[Frequency.Hour]);
+      }
+      if (currentTick % Ticks.PerMinute == 0)
+      {
+        RunSystems(this.systems[Frequency.Minute]);
+      }
+      RunSystems(this.systems[Frequency.Tick]);
+    }
+    private void RunSystems(List<TimedSystem> timedSystems)
+    {
+      foreach (TimedSystem timedSystem in timedSystems)
+      {
+        timedSystem.Stopwatch.Start();
+        timedSystem.System.Update(entityPool, TickSize, currentTick);
+        timedSystem.Stopwatch.Stop();
+      }
+    }
+
+    private void RunTickForFrequency(Frequency frequency)
+    {
+
     }
 
     public int currentTick { get; set; } = 0;

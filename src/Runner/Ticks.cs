@@ -1,6 +1,4 @@
-using System;
-
-namespace Sim
+namespace Sim.Runner
 {
   class Ticks
   {
@@ -82,6 +80,12 @@ namespace Sim
     {
       return years * ticksPerYear + months * ticksPerMonth + days * ticksPerDay + hours * ticksPerHour + minutes * ticksPerMinute;
     }
+
+    public static int PerYear { get => ticksPerYear; }
+    public static int PerMonth { get => ticksPerMonth; }
+    public static int PerDay { get => ticksPerDay; }
+    public static int PerHour { get => ticksPerHour; }
+    public static int PerMinute { get => ticksPerMinute; }
 
     public class TickParts
     {

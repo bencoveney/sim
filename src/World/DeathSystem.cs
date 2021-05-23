@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Sim.Ecs;
 using Sim.Logging;
+using Sim.Runner;
 
 namespace Sim.World
 {
@@ -23,7 +24,7 @@ namespace Sim.World
 
         if (age > deathAge)
         {
-          // Console.WriteLine($"{Describe.Entity(entities[i])} has died on {Ticks.ToDateString(currentTick)}");
+          Console.WriteLine($"{Describe.Entity(entities[i])} has died on {Ticks.ToDateString(currentTick)}");
           PersonFactory.CreateDeath(entityPool.CreateBuilder(entities[i]), currentTick);
         }
       }
