@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Sim.Ecs;
+﻿using Sim.Ecs;
 using Sim.Logging;
 using Sim.Runner;
 using Sim.World;
@@ -18,8 +17,9 @@ namespace Sim
 
       Logger.LogEntities("Before running", entityPool.GetEntities(), start);
 
-      var runner = new Runner.Runner(entityPool);
-      runner.AddSystem(new DeathSystem(), Frequency.Day);
+      var schedule = new Schedule();
+      var runner = new Runner.Runner(entityPool, schedule);
+      runner.AddSystem(new DeathSystem(schedule), Frequency.Day);
       runner.currentTick = start;
       runner.runFor(100);
 

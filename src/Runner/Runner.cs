@@ -14,10 +14,12 @@ namespace Sim.Runner
     private List<Filter> filters = new List<Filter>();
     private Dictionary<Frequency, List<TimedSystem>> systems = new Dictionary<Frequency, List<TimedSystem>>();
     public const int TickSize = 1;
+    private Schedule schedule;
 
-    public Runner(EntityPool entityPool)
+    public Runner(EntityPool entityPool, Schedule schedule)
     {
       this.entityPool = entityPool;
+      this.schedule = schedule;
       foreach (Frequency frequency in (Frequency[])Enum.GetValues(typeof(Frequency)))
       {
         systems[frequency] = new List<TimedSystem>();
@@ -40,7 +42,7 @@ namespace Sim.Runner
         }
         sw.Stop();
         var builder = new StringBuilder();
-        builder.AppendLine($"{Environment.NewLine}Year {year}");
+        builder.AppendLine($"{Environment.NewLine}Year {Ticks.ToParts(currentTick).Years}");
         builder.AppendLine($"- Ran in {sw.ElapsedMilliseconds} ms");
         builder.AppendLine($"- Population: {AliveFilter.Alive.GetEntities().Count()}");
         builder.AppendLine($"- Total Entities: { entityPool.GetEntities().Count()}");
@@ -70,6 +72,7 @@ namespace Sim.Runner
     {
       UpdateFilters();
       currentTick += TickSize;
+      schedule.Run(currentTick);
       if (currentTick % Ticks.PerYear == 0)
       {
         RunSystems(this.systems[Frequency.Year]);

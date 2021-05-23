@@ -10,6 +10,11 @@ namespace Sim.World
   {
     private Filter filter = AliveFilter.Alive;
     private int deathAge = Ticks.From(80, 0, 0, 0, 0);
+    private Schedule schedule;
+    public DeathSystem(Schedule schedule)
+    {
+      this.schedule = schedule;
+    }
     public Filter GetFilter()
     {
       return this.filter;
@@ -24,8 +29,13 @@ namespace Sim.World
 
         if (age > deathAge)
         {
-          Console.WriteLine($"{Describe.Entity(entities[i])} has died on {Ticks.ToDateString(currentTick)}");
-          PersonFactory.CreateDeath(entityPool.CreateBuilder(entities[i]), currentTick);
+          var target = entities[i];
+          Console.WriteLine($"{Describe.Entity(target)} was marked for death on {Ticks.ToDateString(currentTick)}");
+          schedule.Add24Hours(currentTick, (scheduledTick) =>
+          {
+            Console.WriteLine($"{Describe.Entity(target)} has died on {Ticks.ToDateString(scheduledTick)}");
+            PersonFactory.CreateDeath(entityPool.CreateBuilder(target), scheduledTick);
+          });
         }
       }
     }

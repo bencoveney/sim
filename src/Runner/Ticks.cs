@@ -24,7 +24,7 @@ namespace Sim.Runner
     {
       var years = NumberOfYears(ticks);
       var remainingAfterYears = ticks - (years * ticksPerYear);
-      var months = NumberOfYears(remainingAfterYears);
+      var months = NumberOfMonths(remainingAfterYears);
       var remainingAfterMonths = remainingAfterYears - (months * ticksPerMonth);
       var days = NumberOfDays(remainingAfterMonths);
       var remainingAfterDays = remainingAfterMonths - (days * ticksPerDay);
