@@ -14,7 +14,7 @@ namespace Sim.Utils
       names.AddRange(Resource.Read("names.txt").Split(Environment.NewLine));
     }
 
-    public static T Pick<T>(List<T> items)
+    public static T Pick<T>(IList<T> items)
     {
       return items[random.Next(items.Count)];
     }

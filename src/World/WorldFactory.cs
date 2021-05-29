@@ -22,7 +22,7 @@ namespace Sim.World
 
     private static void CreateInhabitant(EntityPool entityPool, Entity town, int ageInTicks)
     {
-      var personBuilder = PersonFactory.Create(entityPool, ageInTicks);
+      var personBuilder = PersonFactory.CreateElder(entityPool, ageInTicks);
       var home = LocationFactory.CreateBuilding(entityPool, town, $"{Describe.Entity(personBuilder.Entity)}'s Home").Entity;
       PersonFactory.CreatePosition(personBuilder, home);
       PersonFactory.CreateHome(personBuilder, home);

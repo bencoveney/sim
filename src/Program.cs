@@ -13,13 +13,18 @@ namespace Sim
 
       var entityPool = new EntityPool();
 
-      WorldFactory.Create(entityPool, start, 3, 10);
+      var towns = 3;
+      var townPop = 10;
+      var popsize = towns * townPop;
+
+      WorldFactory.Create(entityPool, start, 3, townPop);
 
       Logger.LogEntities("Before running", entityPool.GetEntities(), start);
 
       var schedule = new Schedule();
       var runner = new Runner.Runner(entityPool, schedule);
       runner.AddSystem(new DeathSystem(schedule), Frequency.Day);
+      runner.AddSystem(new BirthSystem(schedule, popsize), Frequency.Day);
       runner.currentTick = start;
       runner.runFor(100);
 
