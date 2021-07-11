@@ -1,22 +1,22 @@
 namespace Sim.World
 {
-  public enum EntityKind
-  {
-    None = 0,
-    Person = 1,
-    Location = 2
-  }
-
-  static class EntityKindExtensions
-  {
-    public static int ToInt(this EntityKind entityKind)
+    public enum EntityKind
     {
-      return (int)entityKind;
+        None = 0,
+        Person = 1,
+        Location = 2
     }
 
-    public static EntityKind ToEntityKind(this int entityKind)
+    static class EntityKindExtensions
     {
-      return (EntityKind)entityKind;
+        public static int ToInt(this EntityKind entityKind)
+        {
+            return (int)entityKind;
+        }
+
+        public static EntityKind ToEntityKind(this int entityKind)
+        {
+            return (EntityKind)entityKind;
+        }
     }
-  }
 }

@@ -3,25 +3,25 @@ using System.Collections.Generic;
 
 namespace Sim.Utils
 {
-  class Random
-  {
-    private static List<string> names = new List<string>();
-    public static System.Random random;
-
-    static Random()
+    class Random
     {
-      random = new System.Random((int)DateTimeOffset.UtcNow.ToUnixTimeSeconds());
-      names.AddRange(Resource.Read("names.txt").Split(Environment.NewLine));
-    }
+        private static List<string> names = new List<string>();
+        public static System.Random random;
 
-    public static T Pick<T>(IList<T> items)
-    {
-      return items[random.Next(items.Count)];
-    }
+        static Random()
+        {
+            random = new System.Random((int)DateTimeOffset.UtcNow.ToUnixTimeSeconds());
+            names.AddRange(Resource.Read("names.txt", Resource.Kind.Data).Split(Environment.NewLine));
+        }
 
-    public static string Name()
-    {
-      return Pick(names);
+        public static T Pick<T>(IList<T> items)
+        {
+            return items[random.Next(items.Count)];
+        }
+
+        public static string Name()
+        {
+            return Pick(names);
+        }
     }
-  }
 }

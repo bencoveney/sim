@@ -3,6 +3,8 @@
 dotnet run
 dotnet run --configuration Release
 
+dotnet tool install -g dotnet-format
+dotnet format
 ## Use cases to support
 
 A person is alive
