@@ -5,5 +5,9 @@
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="data/*.txt" />
+    <EmbeddedResource Include="shader/*.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="OpenTK.NetStandard" Version="1.0.5.32" />
   </ItemGroup>
 </Project>
