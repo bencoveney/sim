@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Diagnostics;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
@@ -11,15 +11,24 @@ namespace sim.Render
     public class Game : GameWindow
     {
         float[] verticesData = {
-            -0.5f, -0.5f, 0.0f, //Bottom-left vertex
-            0.5f, -0.5f, 0.0f, //Bottom-right vertex
-            0.0f,  0.5f, 0.0f  //Top vertex
+            0.5f,  0.5f, 0.0f,  // top right
+            0.5f, -0.5f, 0.0f,  // bottom right
+            -0.5f, -0.5f, 0.0f,  // bottom left
+            -0.5f,  0.5f, 0.0f   // top left
+        };
+
+        uint[] indicesData = {  // note that we start from 0!
+            0, 1, 3,   // first triangle
+            1, 2, 3    // second triangle
         };
 
         Vbo vbo;
         Vao vao;
+        Ebo ebo;
 
         Program program;
+
+        Stopwatch timer;
 
         public Game(int width, int height, string title) : base(width, height, GraphicsMode.Default, title) { }
 
@@ -44,11 +53,12 @@ namespace sim.Render
 
             vbo = new Vbo(verticesData);
             vao = new Vao(vbo);
-
+            ebo = new Ebo(indicesData);
 
             program = new Program(new List<Shader> { Shader.VertexShader(), Shader.FragmentShader() });
 
-            base.OnLoad(e);
+            timer = new Stopwatch();
+            timer.Start();
         }
 
         protected override void OnRenderFrame(FrameEventArgs e)
@@ -58,8 +68,15 @@ namespace sim.Render
             GL.Clear(ClearBufferMask.ColorBufferBit);
 
             GL.UseProgram(program.handle);
+
+            // update the uniform color
+            double timeValue = timer.Elapsed.TotalSeconds;
+            float greenValue = (float)Math.Sin(timeValue) / (2.0f + 0.5f);
+            int vertexColorLocation = GL.GetUniformLocation(program.handle, "ourColor");
+            GL.Uniform4(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
+
             GL.BindVertexArray(vao.handle);
-            GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
+            GL.DrawElements(PrimitiveType.Triangles, indicesData.Length, DrawElementsType.UnsignedInt, 0);
 
             SwapBuffers();
         }
