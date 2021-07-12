@@ -11,10 +11,12 @@ namespace sim.Render
     public class Game : GameWindow
     {
         float[] verticesData = {
-            0.5f,  0.5f, 0.0f,  // top right
-            0.5f, -0.5f, 0.0f,  // bottom right
-            -0.5f, -0.5f, 0.0f,  // bottom left
-            -0.5f,  0.5f, 0.0f   // top left
+
+            // positions        // colors
+            0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f, // bottom right
+            -0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, // bottom left
+            -0.5f, 0.5f, 0.0f,  0.0f, 0.0f, 1.0f, // top left
+            0.5f, 0.5f, 0.0f,   0.0f, 0.0f, 0.0f, // top right
         };
 
         uint[] indicesData = {  // note that we start from 0!
@@ -28,7 +30,7 @@ namespace sim.Render
 
         Program program;
 
-        Stopwatch timer;
+        // Stopwatch timer;
 
         public Game(int width, int height, string title) : base(width, height, GraphicsMode.Default, title) { }
 
@@ -57,8 +59,8 @@ namespace sim.Render
 
             program = new Program(new List<Shader> { Shader.VertexShader(), Shader.FragmentShader() });
 
-            timer = new Stopwatch();
-            timer.Start();
+            // timer = new Stopwatch();
+            // timer.Start();
         }
 
         protected override void OnRenderFrame(FrameEventArgs e)
@@ -70,10 +72,10 @@ namespace sim.Render
             GL.UseProgram(program.handle);
 
             // update the uniform color
-            double timeValue = timer.Elapsed.TotalSeconds;
-            float greenValue = (float)Math.Sin(timeValue) / (2.0f + 0.5f);
-            int vertexColorLocation = GL.GetUniformLocation(program.handle, "ourColor");
-            GL.Uniform4(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
+            // double timeValue = timer.Elapsed.TotalSeconds;
+            // float greenValue = (float)Math.Sin(timeValue) / (2.0f + 0.5f);
+            // int vertexColorLocation = GL.GetUniformLocation(program.handle, "ourColor");
+            // GL.Uniform4(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
 
             GL.BindVertexArray(vao.handle);
             GL.DrawElements(PrimitiveType.Triangles, indicesData.Length, DrawElementsType.UnsignedInt, 0);
