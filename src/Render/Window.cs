@@ -11,12 +11,11 @@ namespace sim.Render
     public class Game : GameWindow
     {
         float[] verticesData = {
-
-            // positions        // colors
-            0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f, // bottom right
-            -0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, // bottom left
-            -0.5f, 0.5f, 0.0f,  0.0f, 0.0f, 1.0f, // top left
-            0.5f, 0.5f, 0.0f,   0.0f, 0.0f, 0.0f, // top right
+            //Position          Texture coordinates
+            0.5f,  0.5f, 0.0f, 1.0f, 1.0f, // top right
+            0.5f, -0.5f, 0.0f, 1.0f, 0.0f, // bottom right
+            -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, // bottom left
+            -0.5f,  0.5f, 0.0f, 0.0f, 1.0f  // top left
         };
 
         uint[] indicesData = {  // note that we start from 0!
@@ -24,9 +23,17 @@ namespace sim.Render
             1, 2, 3    // second triangle
         };
 
+        float[] texCoords = {
+            1.0f, 0.0f, // bottom right
+            0.0f, 0.0f, // bottom left
+            0.0f, 1.0f, // top left
+            1.0f, 1.0f, // top right
+        };
+
         Vbo vbo;
         Vao vao;
         Ebo ebo;
+        Texture texture;
 
         Program program;
 
@@ -56,6 +63,7 @@ namespace sim.Render
             vbo = new Vbo(verticesData);
             vao = new Vao(vbo);
             ebo = new Ebo(indicesData);
+            texture = new Texture();
 
             program = new Program(new List<Shader> { Shader.VertexShader(), Shader.FragmentShader() });
 
@@ -78,6 +86,10 @@ namespace sim.Render
             // GL.Uniform4(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
 
             GL.BindVertexArray(vao.handle);
+
+            GL.ActiveTexture(TextureUnit.Texture0);
+            GL.BindTexture(TextureTarget.Texture2D, texture.handle);
+
             GL.DrawElements(PrimitiveType.Triangles, indicesData.Length, DrawElementsType.UnsignedInt, 0);
 
             SwapBuffers();

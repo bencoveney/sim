@@ -10,12 +10,18 @@ namespace Sim.Utils
         public enum Kind
         {
             Data,
-            Shader
+            Shader,
+            Texture
         }
 
         public static string Read(string name, Kind kind)
         {
             return ReadFromAssembly(GetStreamLocation(name, kind));
+        }
+
+        public static byte[] ReadBytes(string name, Kind kind)
+        {
+            return ReadBytesFromAssembly(GetStreamLocation(name, kind));
         }
 
         public static IEnumerable<string> List()
@@ -32,6 +38,8 @@ namespace Sim.Utils
                     return $"sim.data.{name}";
                 case Kind.Shader:
                     return $"sim.shader.{name}";
+                case Kind.Texture:
+                    return $"sim.img.{name}";
                 default:
                     throw new Exception("Unknown resource kind");
             }
@@ -40,9 +48,22 @@ namespace Sim.Utils
         private static string ReadFromAssembly(string fullName)
         {
             var assembly = typeof(Sim.Utils.Resource).GetTypeInfo().Assembly;
-            var resource = assembly.GetManifestResourceStream(fullName);
-            var reader = new StreamReader(resource);
-            return reader.ReadToEnd();
+            using (var resource = assembly.GetManifestResourceStream(fullName))
+            {
+                var reader = new StreamReader(resource);
+                return reader.ReadToEnd();
+            }
+        }
+
+        private static byte[] ReadBytesFromAssembly(string fullName)
+        {
+            var assembly = typeof(Sim.Utils.Resource).GetTypeInfo().Assembly;
+            using (var resource = assembly.GetManifestResourceStream(fullName))
+            {
+                byte[] buffer = new byte[resource.Length];
+                resource.Read(buffer, 0, buffer.Length);
+                return buffer;
+            }
         }
     }
 }
