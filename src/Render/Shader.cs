@@ -12,7 +12,7 @@ namespace sim.Render
         public Shader(ShaderType shaderType, string resourceName)
         {
             handle = new Handle(GL.CreateShader(shaderType));
-            var source = Resource.Read(resourceName, Resource.Kind.Shader);
+            var source = Resource.ReadString(resourceName, Resource.Kind.Shader);
             GL.ShaderSource(handle, source);
             GL.CompileShader(handle);
 

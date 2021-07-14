@@ -11,7 +11,7 @@ namespace Sim.Utils
         static Random()
         {
             random = new System.Random((int)DateTimeOffset.UtcNow.ToUnixTimeSeconds());
-            names.AddRange(Resource.Read("names.txt", Resource.Kind.Data).Split(Environment.NewLine));
+            names.AddRange(Resource.ReadString("names.txt", Resource.Kind.Data).Split(Environment.NewLine));
         }
 
         public static T Pick<T>(IList<T> items)

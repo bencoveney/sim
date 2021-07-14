@@ -1,9 +1,6 @@
-using System;
 using System.Collections.Generic;
 using OpenTK.Graphics.OpenGL4;
 using Sim.Utils;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 
 namespace sim.Render
@@ -11,23 +8,20 @@ namespace sim.Render
     class Texture
     {
         public Handle handle;
+        public int Width;
+        public int Height;
 
         public Texture()
         {
             handle = new Handle(GL.GenTexture());
 
-            // Bind the handle
             GL.ActiveTexture(TextureUnit.Texture0);
             GL.BindTexture(TextureTarget.Texture2D, handle);
 
-            var bytes = Resource.ReadBytes("town_tiles.png", Resource.Kind.Texture);
+            var image = Resource.ReadImage("town_tiles.png", Resource.Kind.Image);
 
-            // Load the image
-            Image<Rgba32> image = Image.Load<Rgba32>(bytes);
-
-            // ImageSharp loads from the top-left pixel, whereas OpenGL loads from the bottom-left, causing the texture to be flipped vertically.
-            // This will correct that, making the texture display properly.
-            image.Mutate(x => x.Flip(FlipMode.Vertical));
+            Width = image.Width;
+            Height = image.Height;
 
             // Convert ImageSharp's format into a byte array, so we can use it with OpenGL.
             var pixels = new List<byte>(4 * image.Width * image.Height);
