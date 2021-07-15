@@ -14,9 +14,8 @@ namespace sim.Render
         Ebo ebo;
         SpriteSheet spriteSheet;
         Program program;
-        Matrix4 projection;
-        Vector2 center;
         World world;
+        Camera camera;
 
         public Game(int width, int height, string title) : base(width, height, GraphicsMode.Default, title) { }
 
@@ -36,8 +35,14 @@ namespace sim.Render
             base.OnMouseMove(e);
             if (e.Mouse.IsAnyButtonDown)
             {
-                center += new Vector2(e.XDelta, e.YDelta) * 1.25f / spriteSheet.TileSize;
+                camera.Pan(new Vector2(e.XDelta, e.YDelta));
             }
+        }
+
+        protected override void OnMouseWheel(MouseWheelEventArgs e)
+        {
+            base.OnMouseWheel(e);
+            camera.Zoom(e.Delta);
         }
 
         protected override void OnLoad(EventArgs e)
@@ -63,9 +68,7 @@ namespace sim.Render
 
             program = new Program(new List<Shader> { Shader.VertexShader(), Shader.FragmentShader() });
 
-            center = new Vector2(world.Width / 2, world.Height / 2);
-
-            InitProjection();
+            camera = new Camera(program, new Vector2(Width, Height), 200);
         }
 
         protected override void OnRenderFrame(FrameEventArgs e)
@@ -89,7 +92,6 @@ namespace sim.Render
         protected override void OnResize(EventArgs e)
         {
             base.OnResize(e);
-
             GL.Viewport(0, 0, Width, Height);
         }
 
@@ -178,15 +180,6 @@ namespace sim.Render
             }
 
             return new Ebo(indices);
-        }
-
-        private void InitProjection()
-        {
-            projection = Matrix4.CreateTranslation(-center.X, -center.Y, 0) *
-            Matrix4.CreateScale(spriteSheet.TileSize, spriteSheet.TileSize, 1) *
-            Matrix4.CreateScale(40f / Width, 40f / Height, 1);
-
-            GL.UniformMatrix4(GL.GetUniformLocation(program.handle, "projection"), false, ref projection);
         }
     }
 }
