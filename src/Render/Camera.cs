@@ -1,3 +1,4 @@
+using System;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
@@ -5,6 +6,9 @@ namespace sim.Render
 {
     class Camera
     {
+        private const float ZOOM_SPEED = 10;
+        private const float ZOOM_MINIMUM = 10;
+        private const float ZOOM_MAXIMUM = 250;
         private Vector2 viewport;
         private Program program;
         private float zoom;
@@ -28,10 +32,10 @@ namespace sim.Render
             this.center += viewportPixels / zoom;
             StoreCamera();
         }
-
         public void Zoom(float deltaZoom)
         {
-            zoom += deltaZoom;
+            var newZoom = zoom + (deltaZoom * ZOOM_SPEED);
+            zoom = Math.Min(Math.Max(newZoom, ZOOM_MINIMUM), ZOOM_MAXIMUM);
             StoreCamera();
         }
 
