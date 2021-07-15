@@ -13,7 +13,7 @@ namespace Sim.Logging
 
             foreach (var entity in entities)
             {
-                Console.WriteLine($"{Environment.NewLine}{entity.Kind.ToEntityKind()}");
+                Console.WriteLine($"{Environment.NewLine}Entity");
                 foreach (var component in entity.ComponentsByKind.Values)
                 {
                     switch (component.Kind.ToComponentKind())
@@ -51,7 +51,7 @@ namespace Sim.Logging
                             }
                             foreach (var value in component.Entities.Values)
                             {
-                                Console.WriteLine($"  - {value.Kind.ToEntityKind()}: {value.Value}");
+                                Console.WriteLine($"  - Entity: {value.Value}");
                             }
                             break;
                     }

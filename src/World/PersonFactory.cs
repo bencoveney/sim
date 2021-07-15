@@ -7,7 +7,7 @@ namespace Sim.World
     {
         public static EntityBuilder CreateElder(EntityPool entityPool, int ageRange)
         {
-            var builder = entityPool.CreateBuilder(EntityKind.Person.ToInt());
+            var builder = entityPool.CreateBuilder();
             CreateElderName(builder);
             CreateBirth(builder, ageRange);
             return builder;
@@ -15,7 +15,7 @@ namespace Sim.World
 
         public static EntityBuilder CreateBaby(EntityPool entityPool, Entity parent1, Entity parent2, int currentTick)
         {
-            var builder = entityPool.CreateBuilder(EntityKind.Person.ToInt());
+            var builder = entityPool.CreateBuilder();
             CreateElderName(builder);
             CreateBirthAt(builder, currentTick);
             CreateHome(builder, parent1.ComponentsByKind[ComponentKind.Home.ToInt()].Entities[EntityValueKind.Entity.ToInt()].Value);

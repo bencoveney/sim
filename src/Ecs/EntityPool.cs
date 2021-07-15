@@ -8,17 +8,17 @@ namespace Sim.Ecs
         private IdGenerator entityIdGenerator = new IdGenerator();
         private ComponentPool componentPool = new ComponentPool();
 
-        public Entity CreateEntity(int entityKind)
+        public Entity CreateEntity()
         {
             var id = entityIdGenerator.getNext();
-            var entity = new Entity(id, entityKind);
+            var entity = new Entity(id);
             this.entities.Add(id, entity);
             return entity;
         }
 
-        public EntityBuilder CreateBuilder(int entityKind)
+        public EntityBuilder CreateBuilder()
         {
-            return CreateBuilder(CreateEntity(entityKind));
+            return CreateBuilder(CreateEntity());
         }
 
         public EntityBuilder CreateBuilder(Entity entity)

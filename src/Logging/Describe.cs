@@ -8,14 +8,17 @@ namespace Sim.Logging
     {
         public static string Entity(Entity entity)
         {
-            switch (entity.Kind.ToEntityKind())
+            if (entity.ComponentsByKind.ContainsKey(ComponentKind.PersonName.ToInt()))
             {
-                case EntityKind.Person:
-                    return Component(entity.ComponentsByKind[ComponentKind.PersonName.ToInt()]);
-                case EntityKind.Location:
-                    return Component(entity.ComponentsByKind[ComponentKind.LocationName.ToInt()]);
-                default:
-                    return "[COULD NOT DESCRIBE ENTITY]";
+                return Component(entity.ComponentsByKind[ComponentKind.PersonName.ToInt()]);
+            }
+            else if (entity.ComponentsByKind.ContainsKey(ComponentKind.LocationName.ToInt()))
+            {
+                return Component(entity.ComponentsByKind[ComponentKind.LocationName.ToInt()]);
+            }
+            else
+            {
+                return "[COULD NOT DESCRIBE ENTITY]";
             }
         }
 

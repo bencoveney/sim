@@ -38,7 +38,7 @@ namespace Sim.World
                 parent2 = Utils.Random.Pick<Entity>(entities);
             }
             PersonFactory.CreateBaby(entityPool, parent1, parent2, currentTick);
-            Console.WriteLine($"${Environment.NewLine}Baby born");
+            Console.WriteLine($"{Environment.NewLine}Baby born");
         }
     }
 }
