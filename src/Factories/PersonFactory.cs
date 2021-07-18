@@ -2,7 +2,7 @@ using Sim.Components;
 using Sim.Ecs;
 using Sim.Utils;
 
-namespace Sim.World
+namespace Sim.Factories
 {
     class PersonFactory
     {

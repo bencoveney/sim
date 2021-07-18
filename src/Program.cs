@@ -3,7 +3,7 @@ using Sim.Ecs;
 using Sim.Logging;
 using Sim.Runner;
 using Sim.Systems;
-using Sim.World;
+using Sim.Factories;
 
 namespace Sim
 {

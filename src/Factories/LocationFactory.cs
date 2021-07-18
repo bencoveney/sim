@@ -1,7 +1,7 @@
 using Sim.Components;
 using Sim.Ecs;
 
-namespace Sim.World
+namespace Sim.Factories
 {
     class LocationFactory
     {

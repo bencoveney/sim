@@ -3,7 +3,7 @@ using Sim.Ecs;
 using Sim.Logging;
 using Sim.Utils;
 
-namespace Sim.World
+namespace Sim.Factories
 {
     class WorldFactory
     {
