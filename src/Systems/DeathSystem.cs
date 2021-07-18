@@ -18,7 +18,7 @@ namespace Sim.Systems
         }
         public void Update(EntityPool entityPool, int deltaTicks, int currentTick)
         {
-            var entities = entityPool.GetEntities().Where(entity => entity.Has<BirthComponent>() && !entity.Has<DeathComponent>()).ToList();
+            var entities = entityPool.AliveEntities;
             var count = entities.Count();
             for (int i = 0; i < count; i++)
             {

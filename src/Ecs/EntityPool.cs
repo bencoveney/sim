@@ -26,24 +26,9 @@ namespace Sim.Ecs
             return entity;
         }
 
-        public void DestroyEntity(Entity entity)
-        {
-            this.DestroyEntity(entity.Id);
-        }
-
-        public void DestroyEntity(uint entityId)
-        {
-            this.entities.Remove(entityId);
-        }
-
         public IEnumerable<Entity> GetEntities()
         {
             return this.entities.Values;
-        }
-
-        public Entity GetEntity(uint entityId)
-        {
-            return this.entities[entityId];
         }
     }
 }
