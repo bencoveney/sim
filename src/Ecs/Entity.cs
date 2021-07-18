@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Sim.Ecs
 {
@@ -10,11 +11,22 @@ namespace Sim.Ecs
         }
 
         public uint Id { get; private set; }
-        public Dictionary<int, Component> ComponentsByKind { get; } = new Dictionary<int, Component>();
-        public void AddComponent(Component component)
+        private List<Component> _components = new List<Component>();
+        public IEnumerable<Component> Components { get => _components; }
+
+        public T Get<T>() where T : Component
         {
-            this.ComponentsByKind.Add(component.Kind, component);
-            Updated.EntityUpdated(this);
+            return _components.First(component => component.GetType() == typeof(T)) as T;
+        }
+
+        public bool Has<T>() where T : Component
+        {
+            return _components.Any(component => component.GetType() == typeof(T));
+        }
+
+        public void Add(Component component)
+        {
+            this._components.Add(component);
         }
     }
 }

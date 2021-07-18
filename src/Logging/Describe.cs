@@ -1,6 +1,5 @@
+using Sim.Components;
 using Sim.Ecs;
-using Sim.Runner;
-using Sim.World;
 
 namespace Sim.Logging
 {
@@ -8,13 +7,13 @@ namespace Sim.Logging
     {
         public static string Entity(Entity entity)
         {
-            if (entity.ComponentsByKind.ContainsKey(ComponentKind.PersonName.ToInt()))
+            if (entity.Has<PersonNameComponent>())
             {
-                return Component(entity.ComponentsByKind[ComponentKind.PersonName.ToInt()]);
+                return Component(entity.Get<PersonNameComponent>());
             }
-            else if (entity.ComponentsByKind.ContainsKey(ComponentKind.LocationName.ToInt()))
+            else if (entity.Has<LocationNameComponent>())
             {
-                return Component(entity.ComponentsByKind[ComponentKind.LocationName.ToInt()]);
+                return Component(entity.Get<LocationNameComponent>());
             }
             else
             {
@@ -24,33 +23,7 @@ namespace Sim.Logging
 
         public static string Component(Component component)
         {
-            switch (component.Kind.ToComponentKind())
-            {
-                case ComponentKind.PersonName:
-                    return $"{Describe.GetStringValue(component, StringKind.FirstName)} {Describe.GetStringValue(component, StringKind.Surname)}";
-                case ComponentKind.Birth:
-                    return Ticks.ToDateString(Describe.GetIntValue(component, IntKind.Tick));
-                case ComponentKind.Death:
-                    return Ticks.ToDateString(Describe.GetIntValue(component, IntKind.Tick));
-                case ComponentKind.LocationName:
-                    return Describe.GetStringValue(component, StringKind.LocationName);
-                case ComponentKind.ParentLocation:
-                case ComponentKind.Position:
-                case ComponentKind.Home:
-                    return Entity(component.Entities[EntityValueKind.Entity.ToInt()].Value);
-                default:
-                    return "[COULD NOT DESCRIBE COMPONENT]";
-            }
-        }
-
-        public static int GetIntValue(Component component, IntKind name)
-        {
-            return component.Ints[name.ToInt()].Value;
-        }
-
-        public static string GetStringValue(Component component, StringKind name)
-        {
-            return component.Strings[name.ToInt()].Value;
+            return component.ToString();
         }
     }
 }

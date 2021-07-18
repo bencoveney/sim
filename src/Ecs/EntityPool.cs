@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using Sim.Components;
 
 namespace Sim.Ecs
 {
@@ -6,7 +8,15 @@ namespace Sim.Ecs
     {
         private SortedDictionary<uint, Entity> entities = new SortedDictionary<uint, Entity>();
         private IdGenerator entityIdGenerator = new IdGenerator();
-        private ComponentPool componentPool = new ComponentPool();
+        public List<Entity> AliveEntities = new List<Entity>();
+
+        public void UpdateFilters()
+        {
+            // Hack!!!
+            // Keep an updated list of entities that are alive so that each system doesn't need to recalculate this.
+            // Should be improved by building a filtering system.
+            AliveEntities = GetEntities().Where(entity => entity.Has<BirthComponent>() && !entity.Has<DeathComponent>()).ToList();
+        }
 
         public Entity CreateEntity()
         {
@@ -14,16 +24,6 @@ namespace Sim.Ecs
             var entity = new Entity(id);
             this.entities.Add(id, entity);
             return entity;
-        }
-
-        public EntityBuilder CreateBuilder()
-        {
-            return CreateBuilder(CreateEntity());
-        }
-
-        public EntityBuilder CreateBuilder(Entity entity)
-        {
-            return new EntityBuilder(this, entity);
         }
 
         public void DestroyEntity(Entity entity)
@@ -34,24 +34,6 @@ namespace Sim.Ecs
         public void DestroyEntity(uint entityId)
         {
             this.entities.Remove(entityId);
-        }
-
-        public Component AddComponent(uint entityId, int componentKind)
-        {
-            return AddComponent(GetEntity(entityId), componentKind);
-        }
-
-        public Component AddComponent(Entity entity, int componentKind)
-        {
-            if (entity.ComponentsByKind.ContainsKey(componentKind))
-            {
-                throw new EcsException($"Entity ${entity.Id} already has component ${componentKind}");
-            }
-
-            var component = componentPool.CreateComponent(componentKind);
-            entity.AddComponent(component);
-            Updated.EntityUpdated(entity);
-            return component;
         }
 
         public IEnumerable<Entity> GetEntities()

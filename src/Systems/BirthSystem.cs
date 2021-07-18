@@ -1,10 +1,11 @@
 using System;
 using System.Linq;
+using Sim.Components;
 using Sim.Ecs;
-using Sim.Logging;
 using Sim.Runner;
+using Sim.World;
 
-namespace Sim.World
+namespace Sim.Systems
 {
     /*
       Current implementation is jank.
@@ -12,7 +13,6 @@ namespace Sim.World
     */
     class BirthSystem : Ecs.System
     {
-        private Filter filter = AliveFilter.Alive;
         private Schedule schedule;
         private int popSize;
         public BirthSystem(Schedule schedule, int popSize)
@@ -20,13 +20,9 @@ namespace Sim.World
             this.schedule = schedule;
             this.popSize = popSize;
         }
-        public Filter GetFilter()
-        {
-            return this.filter;
-        }
         public void Update(EntityPool entityPool, int deltaTicks, int currentTick)
         {
-            var entities = this.filter.GetEntities();
+            var entities = entityPool.AliveEntities;
             if (entities.Count() >= popSize)
             {
                 return;
@@ -39,6 +35,7 @@ namespace Sim.World
             }
             PersonFactory.CreateBaby(entityPool, parent1, parent2, currentTick);
             Console.WriteLine($"{Environment.NewLine}Baby born");
+            entityPool.UpdateFilters();
         }
     }
 }

@@ -1,6 +1,6 @@
 namespace Sim.Ecs
 {
-    class IdGenerator
+    public class IdGenerator
     {
         private uint value = 0;
         public uint getNext()
