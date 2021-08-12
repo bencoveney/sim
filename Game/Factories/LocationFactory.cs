@@ -1,25 +1,26 @@
 using Sim.Components;
-using Ecs;
+using EntityComponentSystem;
+using EcsExtensions;
 
 namespace Sim.Factories
 {
     class LocationFactory
     {
-        public static Entity CreateWorld(EntityPool entityPool, string name)
+        public static int CreateWorld(Ecs ecs, string name)
         {
-            return CreateLocation(entityPool, name);
+            return CreateLocation(ecs, name);
         }
-        public static Entity CreateBuilding(EntityPool entityPool, Entity parent, string name)
+        public static int CreateBuilding(Ecs ecs, int parent, string name)
         {
-            var entity = entityPool.CreateEntity();
-            entity.Add(new ParentLocationComponent(parent.Id));
+            var entity = CreateLocation(ecs, name);
+            ecs.SetParentLocation(entity, new ParentLocation(parent));
             return entity;
         }
 
-        private static Entity CreateLocation(EntityPool entityPool, string name)
+        private static int CreateLocation(Ecs ecs, string name)
         {
-            var entity = entityPool.CreateEntity();
-            entity.Add(new LocationNameComponent(name));
+            var entity = ecs.CreateEntity();
+            ecs.SetLocationName(entity, new LocationName(name));
             return entity;
         }
     }

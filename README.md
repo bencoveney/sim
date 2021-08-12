@@ -5,6 +5,13 @@ dotnet run --configuration Release
 
 dotnet tool install -g dotnet-format
 dotnet format
+
+dotnet build ./EntityComponentSystem
+dotnet run -p ./EntityComponentSystem
+
+dotnet build ./Game
+dotnet run -p ./Game
+
 ## Use cases to support
 
 A person is alive
@@ -28,3 +35,4 @@ Middle earth
 # Resources
 
 https://github.com/davudk/OpenGL-TileMap-Demos
+https://www.youtube.com/watch?v=052xutD86uI

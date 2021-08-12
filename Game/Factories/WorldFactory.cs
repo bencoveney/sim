@@ -1,30 +1,31 @@
 using Sim.Components;
-using Ecs;
+using EntityComponentSystem;
 using Sim.Logging;
 using Sim.Utils;
+using EcsExtensions;
 
 namespace Sim.Factories
 {
     class WorldFactory
     {
-        public static void Create(EntityPool entityPool, int ageInTicks, int towns, int population)
+        public static void Create(Ecs ecs, int ageInTicks, int towns, int population)
         {
-            var world = LocationFactory.CreateWorld(entityPool, "World");
-            Range.To(towns).ForEach(it => CreateTown(entityPool, world, ageInTicks, population));
+            var world = LocationFactory.CreateWorld(ecs, "World");
+            Range.To(towns).ForEach(it => CreateTown(ecs, world, ageInTicks, population));
         }
 
-        private static void CreateTown(EntityPool entityPool, Entity world, int ageInTicks, int population)
+        private static void CreateTown(Ecs ecs, int world, int ageInTicks, int population)
         {
-            var town = LocationFactory.CreateBuilding(entityPool, world, $"{Random.Name()} Town");
-            Range.To(population).ForEach(it => CreateInhabitant(entityPool, town, ageInTicks));
+            var town = LocationFactory.CreateBuilding(ecs, world, $"{Random.Name()} Town");
+            Range.To(population).ForEach(it => CreateInhabitant(ecs, town, ageInTicks));
         }
 
-        private static void CreateInhabitant(EntityPool entityPool, Entity town, int ageInTicks)
+        private static void CreateInhabitant(Ecs ecs, int town, int ageInTicks)
         {
-            var elder = PersonFactory.CreateElder(entityPool, ageInTicks);
-            var home = LocationFactory.CreateBuilding(entityPool, town, $"{Describe.Entity(elder)}'s Home");
-            elder.Add(new PositionComponent(home.Id));
-            elder.Add(new HomeComponent(home.Id));
+            var elder = PersonFactory.CreateElder(ecs, ageInTicks);
+            var home = LocationFactory.CreateBuilding(ecs, town, $"{Describe.Entity(ecs, elder)}'s Home");
+            ecs.SetPosition(elder, new Position(home));
+            ecs.SetHome(elder, new Home(home));
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using sim.Render;
-using Ecs;
+using EntityComponentSystem;
 using Sim.Logging;
 using Sim.Runner;
 using Sim.Systems;
@@ -18,24 +18,25 @@ namespace Sim
         {
             var start = Ticks.From(50, 0, 0, 0, 0);
 
-            var entityPool = new EntityPool();
+            var ecs = new Ecs();
+            EcsExtensions.EcsExtensions.Register(ecs);
 
             var towns = 3;
             var townPop = 10;
             var popsize = towns * townPop;
 
-            WorldFactory.Create(entityPool, start, 3, townPop);
+            WorldFactory.Create(ecs, start, 3, townPop);
 
-            Logger.LogEntities("Before running", entityPool.GetEntities(), start);
+            Logger.LogEntities("Before running", ecs);
 
             var schedule = new Schedule();
-            var runner = new Runner.Runner(entityPool, schedule);
+            var runner = new Runner.Runner(ecs, schedule);
             runner.AddSystem(new DeathSystem(schedule), Frequency.Day);
-            runner.AddSystem(new BirthSystem(schedule, popsize), Frequency.Day);
+            runner.AddSystem(new BirthSystem(popsize), Frequency.Day);
             runner.currentTick = start;
             runner.runFor(100);
 
-            Logger.LogEntities("After running", entityPool.GetEntities(), runner.currentTick);
+            Logger.LogEntities("After running", ecs);
         }
 
         private static void RunRender()

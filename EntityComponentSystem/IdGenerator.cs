@@ -1,9 +1,9 @@
-namespace Ecs
+namespace EntityComponentSystem
 {
     public class IdGenerator
     {
-        private uint value = 0;
-        public uint getNext()
+        private int value = 0;
+        public int GetNext()
         {
             return this.value++;
         }

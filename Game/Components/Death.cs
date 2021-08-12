@@ -1,15 +1,13 @@
-using Ecs;
+using EntityComponentSystem;
 using Sim.Runner;
 
 namespace Sim.Components
 {
-    public class BirthComponent : Component
+    [Component]
+    public class Death
     {
-        private static uint kind = Component.kindGenerator.getNext();
-        public override uint Kind { get { return kind; } }
-
         public int Tick;
-        public BirthComponent(int tick)
+        public Death(int tick)
         {
             Tick = tick;
         }

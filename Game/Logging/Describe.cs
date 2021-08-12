@@ -1,29 +1,25 @@
 using Sim.Components;
-using Ecs;
+using EntityComponentSystem;
+using EcsExtensions;
 
 namespace Sim.Logging
 {
     class Describe
     {
-        public static string Entity(Entity entity)
+        public static string Entity(Ecs ecs, int entity)
         {
-            if (entity.Has<PersonNameComponent>())
+            if (ecs.HasPersonName(entity))
             {
-                return Component(entity.Get<PersonNameComponent>());
+                return ecs.GetPersonName(entity).ToString();
             }
-            else if (entity.Has<LocationNameComponent>())
+            else if (ecs.HasLocationName(entity))
             {
-                return Component(entity.Get<LocationNameComponent>());
+                return ecs.GetLocationName(entity).ToString();
             }
             else
             {
                 return "[COULD NOT DESCRIBE ENTITY]";
             }
-        }
-
-        public static string Component(Component component)
-        {
-            return component.ToString();
         }
     }
 }

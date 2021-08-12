@@ -1,15 +1,13 @@
-using Ecs;
+using EntityComponentSystem;
 
 namespace Sim.Components
 {
-    public class PersonNameComponent : Component
+    [Component]
+    public class PersonName
     {
-        private static uint kind = Component.kindGenerator.getNext();
-        public override uint Kind { get { return kind; } }
-
         public string FirstName;
         public string SecondName;
-        public PersonNameComponent(string firstName, string secondName)
+        public PersonName(string firstName, string secondName)
         {
             FirstName = firstName;
             SecondName = secondName;

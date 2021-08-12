@@ -3,27 +3,27 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using Ecs;
+using EntityComponentSystem;
 
 namespace Sim.Runner
 {
     class Runner
     {
-        private EntityPool entityPool;
+        private Ecs ecs;
         private Dictionary<Frequency, List<TimedSystem>> systems = new Dictionary<Frequency, List<TimedSystem>>();
         public const int TickSize = 1;
         private Schedule schedule;
 
-        public Runner(EntityPool entityPool, Schedule schedule)
+        public Runner(Ecs ecs, Schedule schedule)
         {
-            this.entityPool = entityPool;
+            this.ecs = ecs;
             this.schedule = schedule;
             foreach (Frequency frequency in (Frequency[])Enum.GetValues(typeof(Frequency)))
             {
                 systems[frequency] = new List<TimedSystem>();
             }
         }
-        public void AddSystem(Ecs.System system, Frequency frequency)
+        public void AddSystem(EntityComponentSystem.System system, Frequency frequency)
         {
             systems[frequency].Add(new TimedSystem() { Stopwatch = new Stopwatch(), System = system, Name = system.GetType().Name });
         }
@@ -42,7 +42,7 @@ namespace Sim.Runner
                 builder.AppendLine($"{Environment.NewLine}Year {Ticks.ToParts(currentTick).Years}");
                 builder.AppendLine($"- Ran in {sw.ElapsedMilliseconds} ms");
                 // builder.AppendLine($"- Population: {entityPool.AliveEntities.Count()}");
-                builder.AppendLine($"- Total Entities: { entityPool.GetEntities().Count()}");
+                builder.AppendLine($"- Total Entities: { ecs.GetEntities().Count()}");
                 builder.AppendLine($"- Systems:");
                 foreach (TimedSystem system in systems.Values.SelectMany(systems => systems))
                 {
@@ -84,7 +84,7 @@ namespace Sim.Runner
             foreach (TimedSystem timedSystem in timedSystems)
             {
                 timedSystem.Stopwatch.Start();
-                timedSystem.System.Update(entityPool, TickSize, currentTick);
+                timedSystem.System.Update(ecs, TickSize, currentTick);
                 timedSystem.Stopwatch.Stop();
             }
         }
@@ -93,7 +93,7 @@ namespace Sim.Runner
 
         private class TimedSystem
         {
-            public Ecs.System System;
+            public EntityComponentSystem.System System;
             public Stopwatch Stopwatch;
             public string Name;
         }
