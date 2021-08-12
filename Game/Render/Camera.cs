@@ -10,7 +10,7 @@ namespace sim.Render
         private const float ZOOM_MINIMUM = 10;
         private const float ZOOM_MAXIMUM = 250;
         private Vector2 viewport;
-        private Program program;
+        private readonly Program program;
         private float zoom;
         private Vector2 center = new Vector2(0, 0);
         public Camera(Program program, Vector2 viewport, float zoom)

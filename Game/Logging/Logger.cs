@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using EntityComponentSystem;
 
 namespace Sim.Logging

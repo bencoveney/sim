@@ -1,4 +1,3 @@
-using System;
 using OpenTK;
 
 namespace sim.Render

@@ -10,10 +10,7 @@ namespace sim.Render
             var error = GL.GetError();
             if (error != ErrorCode.NoError)
             {
-                var version = GL.GetString(StringName.Version);
-                var extensions = GL.GetString(StringName.Extensions);
-                var vendor = GL.GetString(StringName.Vendor);
-                throw new Exception($@"Got GL error: {error.ToString()}
+                throw new Exception($@"Got GL error: {error}
 Version: {GL.GetString(StringName.Version)}
 Extensions: {GL.GetString(StringName.Extensions).Split(" ").Length}
 Vendor: {GL.GetString(StringName.Vendor)}

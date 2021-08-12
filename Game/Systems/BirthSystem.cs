@@ -1,9 +1,7 @@
 using System;
 using System.Linq;
 using EntityComponentSystem;
-using Sim.Runner;
 using Sim.Factories;
-using Sim.Components;
 using EcsExtensions;
 
 namespace Sim.Systems

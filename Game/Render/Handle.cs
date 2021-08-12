@@ -2,7 +2,7 @@ namespace sim.Render
 {
     public class Handle
     {
-        private int value;
+        private readonly int value;
 
         public Handle(int Value)
         {

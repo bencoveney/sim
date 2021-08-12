@@ -1,5 +1,4 @@
 using System;
-using System.Text;
 using OpenTK.Graphics.OpenGL;
 using Sim.Utils;
 
@@ -21,9 +20,7 @@ namespace sim.Render
             GL.GetShader(handle, ShaderParameter.CompileStatus, out var code);
             if (code != (int)All.True)
             {
-                int length;
-                string infoLog;
-                GL.GetShaderInfoLog(handle, 102400, out length, out infoLog);
+                GL.GetShaderInfoLog(handle, 102400, out int length, out string infoLog);
                 throw new Exception($"Error occurred whilst compiling Shader({resourceName}).\n\n{infoLog}");
             }
         }

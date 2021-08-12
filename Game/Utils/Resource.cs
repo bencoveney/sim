@@ -21,11 +21,9 @@ namespace Sim.Utils
         {
             try
             {
-                using (var resourceStream = getResourceStream(name, kind))
-                {
-                    var reader = new StreamReader(resourceStream);
-                    return reader.ReadToEnd();
-                }
+                using var resourceStream = GetResourceStream(name, kind);
+                var reader = new StreamReader(resourceStream);
+                return reader.ReadToEnd();
             }
             catch (Exception e)
             {
@@ -36,12 +34,10 @@ namespace Sim.Utils
 
         public static byte[] ReadBytes(string name, Kind kind)
         {
-            using (var resourceStream = getResourceStream(name, kind))
-            {
-                byte[] buffer = new byte[resourceStream.Length];
-                resourceStream.Read(buffer, 0, buffer.Length);
-                return buffer;
-            }
+            using var resourceStream = GetResourceStream(name, kind);
+            byte[] buffer = new byte[resourceStream.Length];
+            resourceStream.Read(buffer, 0, buffer.Length);
+            return buffer;
         }
 
         public static Image<Rgba32> ReadImage(string name, Kind kind)
@@ -50,7 +46,7 @@ namespace Sim.Utils
             return Image.Load<Rgba32>(bytes);
         }
 
-        private static Stream getResourceStream(string name, Kind kind)
+        private static Stream GetResourceStream(string name, Kind kind)
         {
             var location = GetStreamLocation(name, kind);
             var assembly = typeof(Sim.Utils.Resource).GetTypeInfo().Assembly;
@@ -59,17 +55,13 @@ namespace Sim.Utils
 
         private static string GetStreamLocation(string name, Kind kind)
         {
-            switch (kind)
+            return kind switch
             {
-                case Kind.Data:
-                    return $"Game.Assets.data.{name}";
-                case Kind.Shader:
-                    return $"Game.Assets.shader.{name}";
-                case Kind.Image:
-                    return $"Game.Assets.img.{name}";
-                default:
-                    throw new Exception("Unknown resource kind");
-            }
+                Kind.Data => $"Game.Assets.data.{name}",
+                Kind.Shader => $"Game.Assets.shader.{name}",
+                Kind.Image => $"Game.Assets.img.{name}",
+                _ => throw new Exception("Unknown resource kind"),
+            };
         }
 
         public static IEnumerable<string> List()

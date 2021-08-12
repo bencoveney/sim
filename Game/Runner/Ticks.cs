@@ -2,11 +2,11 @@ namespace Sim.Runner
 {
     class Ticks
     {
-        private static int ticksPerMinute = 1;
-        private static int ticksPerHour = 60 * ticksPerMinute;
-        private static int ticksPerDay = 24 * ticksPerHour;
-        private static int ticksPerMonth = 30 * ticksPerDay;
-        private static int ticksPerYear = 12 * ticksPerMonth;
+        private static readonly int ticksPerMinute = 1;
+        private static readonly int ticksPerHour = 60 * ticksPerMinute;
+        private static readonly int ticksPerDay = 24 * ticksPerHour;
+        private static readonly int ticksPerMonth = 30 * ticksPerDay;
+        private static readonly int ticksPerYear = 12 * ticksPerMonth;
 
         public static string ToDateString(int ticks)
         {

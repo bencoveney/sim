@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using OpenTK.Graphics.OpenGL4;
 using Sim.Utils;
-using SixLabors.ImageSharp.Processing;
 
 namespace sim.Render
 {

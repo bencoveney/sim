@@ -1,4 +1,3 @@
-using Sim.Components;
 using EntityComponentSystem;
 using EcsExtensions;
 

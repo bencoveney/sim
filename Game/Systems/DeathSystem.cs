@@ -4,7 +4,6 @@ using Sim.Components;
 using EntityComponentSystem;
 using Sim.Logging;
 using Sim.Runner;
-using Sim.Factories;
 using EcsExtensions;
 
 namespace Sim.Systems

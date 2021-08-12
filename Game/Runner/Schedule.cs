@@ -5,7 +5,7 @@ namespace Sim.Runner
 {
     class Schedule
     {
-        public SortedDictionary<int, List<Action<int>>> scheduledActions = new SortedDictionary<int, List<Action<int>>>();
+        public SortedDictionary<int, List<Action<int>>> scheduledActions = new();
 
         public void Add(int onTick, Action<int> action)
         {

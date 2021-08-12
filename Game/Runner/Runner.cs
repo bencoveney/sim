@@ -9,10 +9,10 @@ namespace Sim.Runner
 {
     class Runner
     {
-        private Ecs ecs;
-        private Dictionary<Frequency, List<TimedSystem>> systems = new Dictionary<Frequency, List<TimedSystem>>();
+        private readonly Ecs ecs;
+        private readonly Dictionary<Frequency, List<TimedSystem>> systems = new();
         public const int TickSize = 1;
-        private Schedule schedule;
+        private readonly Schedule schedule;
 
         public Runner(Ecs ecs, Schedule schedule)
         {
@@ -27,9 +27,9 @@ namespace Sim.Runner
         {
             systems[frequency].Add(new TimedSystem() { Stopwatch = new Stopwatch(), System = system, Name = system.GetType().Name });
         }
-        public void runFor(int years)
+        public void RunFor(int years)
         {
-            Stopwatch sw = new Stopwatch();
+            var sw = new Stopwatch();
             for (var year = 0; year < years; year++)
             {
                 sw.Restart();
@@ -39,7 +39,7 @@ namespace Sim.Runner
                 }
                 sw.Stop();
                 var builder = new StringBuilder();
-                builder.AppendLine($"{Environment.NewLine}Year {Ticks.ToParts(currentTick).Years}");
+                builder.AppendLine($"{Environment.NewLine}Year {Ticks.ToParts(CurrentTick).Years}");
                 builder.AppendLine($"- Ran in {sw.ElapsedMilliseconds} ms");
                 // builder.AppendLine($"- Population: {entityPool.AliveEntities.Count()}");
                 builder.AppendLine($"- Total Entities: { ecs.GetEntities().Count()}");
@@ -55,25 +55,25 @@ namespace Sim.Runner
 
         private void RunTick()
         {
-            currentTick += TickSize;
-            schedule.Run(currentTick);
-            if (currentTick % Ticks.PerYear == 0)
+            CurrentTick += TickSize;
+            schedule.Run(CurrentTick);
+            if (CurrentTick % Ticks.PerYear == 0)
             {
                 RunSystems(this.systems[Frequency.Year]);
             }
-            if (currentTick % Ticks.PerMonth == 0)
+            if (CurrentTick % Ticks.PerMonth == 0)
             {
                 RunSystems(this.systems[Frequency.Month]);
             }
-            if (currentTick % Ticks.PerDay == 0)
+            if (CurrentTick % Ticks.PerDay == 0)
             {
                 RunSystems(this.systems[Frequency.Day]);
             }
-            if (currentTick % Ticks.PerHour == 0)
+            if (CurrentTick % Ticks.PerHour == 0)
             {
                 RunSystems(this.systems[Frequency.Hour]);
             }
-            if (currentTick % Ticks.PerMinute == 0)
+            if (CurrentTick % Ticks.PerMinute == 0)
             {
                 RunSystems(this.systems[Frequency.Minute]);
             }
@@ -84,12 +84,12 @@ namespace Sim.Runner
             foreach (TimedSystem timedSystem in timedSystems)
             {
                 timedSystem.Stopwatch.Start();
-                timedSystem.System.Update(ecs, TickSize, currentTick);
+                timedSystem.System.Update(ecs, TickSize, CurrentTick);
                 timedSystem.Stopwatch.Stop();
             }
         }
 
-        public int currentTick { get; set; } = 0;
+        public int CurrentTick { get; set; } = 0;
 
         private class TimedSystem
         {

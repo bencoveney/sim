@@ -5,7 +5,7 @@ namespace Sim.Utils
 {
     class Random
     {
-        private static List<string> names = new List<string>();
+        private static readonly List<string> names = new();
         public static System.Random random;
 
         static Random()

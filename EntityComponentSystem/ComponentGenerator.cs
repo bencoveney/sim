@@ -127,8 +127,8 @@ namespace EcsExtensions
         private string GenerateEcsExtensions(ITypeSymbol targetType)
         {
             var componentName = targetType.Name.Replace("Component", "").Replace("omponent", "");
-            var lowerComponentName = Char.ToLowerInvariant(componentName[0]) + componentName.Substring(1);
-            var upperComponentName = Char.ToUpperInvariant(componentName[0]) + componentName.Substring(1);
+            var lowerComponentName = char.ToLowerInvariant(componentName[0]) + componentName.Substring(1);
+            var upperComponentName = char.ToUpperInvariant(componentName[0]) + componentName.Substring(1);
 
             return $@"
 using System;
