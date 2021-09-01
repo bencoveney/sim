@@ -1,3 +1,6 @@
+using System;
+using OpenTK;
+
 namespace sim.Render
 {
     class World
@@ -26,6 +29,14 @@ namespace sim.Render
                     world[x, y] = tile;
                 }
             }
+        }
+
+        internal static Point Clamp(this World world, Vector2 position)
+        {
+            return new Point(
+                Math.Clamp((int)Math.Floor(position.X), 0, world.Width - 1),
+                Math.Clamp((int)Math.Floor(position.Y), 0, world.Height - 1)
+            );
         }
     }
 }

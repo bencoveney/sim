@@ -37,6 +37,8 @@ namespace sim.Render
             {
                 camera.Pan(new Vector2(e.XDelta, e.YDelta));
             }
+            var worldPosition = world.Clamp(camera.Project(new Vector2(e.Position.X, e.Position.Y)));
+            Console.WriteLine($"ScreenPos: {e.Position.X} {e.Position.Y} - WorldPos: {worldPosition.X} {worldPosition.Y}");
         }
 
         protected override void OnMouseWheel(MouseWheelEventArgs e)
@@ -74,7 +76,7 @@ namespace sim.Render
 
             program = new Program(new List<Shader> { Shader.VertexShader(), Shader.FragmentShader() });
 
-            camera = new Camera(program, new Vector2(Width, Height), 200);
+            camera = new Camera(new Vector2(Width, Height), 200);
         }
 
         protected override void OnRenderFrame(FrameEventArgs e)
@@ -84,6 +86,10 @@ namespace sim.Render
             GL.Clear(ClearBufferMask.ColorBufferBit);
 
             GL.UseProgram(program.handle);
+
+            // TODO: Why bin projection?
+            var projection = camera.GetCameraTransform();
+            GL.UniformMatrix4(GL.GetUniformLocation(program.handle, "projection"), false, ref projection);
 
             GL.BindVertexArray(vao.handle);
 
