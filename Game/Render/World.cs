@@ -14,4 +14,18 @@ namespace sim.Render
             Tiles = new Tile[width * height];
         }
     }
+
+    internal static class WorldExtensions
+    {
+        internal static void Fill(this World world, Tile tile)
+        {
+            for (var x = 0; x < world.Width; x++)
+            {
+                for (var y = 0; y < world.Height; y++)
+                {
+                    world[x, y] = tile;
+                }
+            }
+        }
+    }
 }

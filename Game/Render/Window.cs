@@ -55,11 +55,17 @@ namespace sim.Render
             GL.ClipControl(ClipOrigin.UpperLeft, ClipDepthMode.NegativeOneToOne);
             GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
 
-            world = new World(2, 2);
-            world[0, 0] = Tile.Wall;
-            world[1, 0] = Tile.DoorClosed;
-            world[0, 1] = Tile.Grass;
-            world[1, 1] = Tile.PathVertical;
+            world = new World(10, 10);
+            world.Fill(Tile.Grass);
+            for (var x = 0; x < world.Width; x++)
+            {
+                world[x, 0] = Tile.Wall;
+            }
+            for (var y = 0; y < world.Height; y++)
+            {
+                world[5, 1] = Tile.PathVertical;
+            }
+            world[5, 0] = Tile.DoorClosed;
 
             spriteSheet = new SpriteSheet(new Texture(), 16);
             vbo = BuildVertices(spriteSheet);

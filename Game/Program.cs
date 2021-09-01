@@ -11,8 +11,8 @@ namespace Sim
     {
         private static void Main()
         {
-            RunWorld();
-            // RunRender();
+            // RunWorld();
+            RunRender();
         }
 
         private static void RunWorld()
