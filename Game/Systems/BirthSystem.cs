@@ -3,6 +3,8 @@ using System.Linq;
 using EntityComponentSystem;
 using Sim.Factories;
 using EcsExtensions;
+using Sim.Runner;
+using Sim.Logging;
 
 namespace Sim.Systems
 {
@@ -30,8 +32,8 @@ namespace Sim.Systems
             {
                 parent2 = Utils.Random.Pick(entities);
             }
-            PersonFactory.CreateBaby(ecs, parent1, parent2, currentTick);
-            Console.WriteLine($"{Environment.NewLine}Baby born");
+            int baby = PersonFactory.CreateBaby(ecs, parent1, parent2, currentTick);
+            Console.WriteLine($"{Describe.Entity(ecs, baby)} born to {Describe.Entity(ecs, parent1)} and {Describe.Entity(ecs, parent2)} on {Ticks.ToDateString(currentTick)}");
         }
     }
 }

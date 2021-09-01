@@ -32,24 +32,23 @@ namespace Sim.Runner
             var sw = new Stopwatch();
             for (var year = 0; year < years; year++)
             {
+                Console.WriteLine($"-----------------------");
+                Console.WriteLine($"Year {Ticks.ToParts(CurrentTick).Years}");
                 sw.Restart();
                 for (var tick = 0; tick < Ticks.PerYear; tick += TickSize)
                 {
-                    this.RunTick();
+                    RunTick();
                 }
                 sw.Stop();
-                var builder = new StringBuilder();
-                builder.AppendLine($"{Environment.NewLine}Year {Ticks.ToParts(CurrentTick).Years}");
-                builder.AppendLine($"- Ran in {sw.ElapsedMilliseconds} ms");
+                Console.WriteLine($"Ran in {sw.ElapsedMilliseconds} ms");
                 // builder.AppendLine($"- Population: {entityPool.AliveEntities.Count()}");
-                builder.AppendLine($"- Total Entities: { ecs.GetEntities().Count()}");
-                builder.AppendLine($"- Systems:");
+                Console.WriteLine($"Total Entities: { ecs.GetEntities().Count()}");
+                Console.WriteLine($"Systems:");
                 foreach (TimedSystem system in systems.Values.SelectMany(systems => systems))
                 {
-                    builder.AppendLine($"  - {system.Name} ran in {system.Stopwatch.ElapsedMilliseconds}ms");
+                    Console.WriteLine($"- {system.Name} ran in {system.Stopwatch.ElapsedMilliseconds}ms");
                     system.Stopwatch.Reset();
                 }
-                Console.WriteLine(builder.ToString());
             }
         }
 
@@ -59,25 +58,25 @@ namespace Sim.Runner
             schedule.Run(CurrentTick);
             if (CurrentTick % Ticks.PerYear == 0)
             {
-                RunSystems(this.systems[Frequency.Year]);
+                RunSystems(systems[Frequency.Year]);
             }
             if (CurrentTick % Ticks.PerMonth == 0)
             {
-                RunSystems(this.systems[Frequency.Month]);
+                RunSystems(systems[Frequency.Month]);
             }
             if (CurrentTick % Ticks.PerDay == 0)
             {
-                RunSystems(this.systems[Frequency.Day]);
+                RunSystems(systems[Frequency.Day]);
             }
             if (CurrentTick % Ticks.PerHour == 0)
             {
-                RunSystems(this.systems[Frequency.Hour]);
+                RunSystems(systems[Frequency.Hour]);
             }
             if (CurrentTick % Ticks.PerMinute == 0)
             {
-                RunSystems(this.systems[Frequency.Minute]);
+                RunSystems(systems[Frequency.Minute]);
             }
-            RunSystems(this.systems[Frequency.Tick]);
+            RunSystems(systems[Frequency.Tick]);
         }
         private void RunSystems(List<TimedSystem> timedSystems)
         {

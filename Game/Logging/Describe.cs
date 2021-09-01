@@ -1,5 +1,6 @@
 using EntityComponentSystem;
 using EcsExtensions;
+using System;
 
 namespace Sim.Logging
 {
