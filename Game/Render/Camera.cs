@@ -1,6 +1,5 @@
 using System;
 using OpenTK;
-using OpenTK.Graphics.OpenGL;
 
 namespace sim.Render
 {
@@ -16,11 +15,6 @@ namespace sim.Render
         {
             this.viewport = viewport;
             this.zoom = zoom;
-        }
-
-        private void Resize(Vector2 viewport)
-        {
-            this.viewport = viewport;
         }
 
         public void Pan(Vector2 viewportPixels)
