@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using OpenTK;
 using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
 
 namespace sim.Render
@@ -16,6 +15,7 @@ namespace sim.Render
         Program program;
         World world;
         Camera camera;
+        Renderer renderer;
 
         public Game(int width, int height, string title) : base(width, height, GraphicsMode.Default, title) { }
 
@@ -37,8 +37,8 @@ namespace sim.Render
             {
                 camera.Pan(new Vector2(e.XDelta, e.YDelta));
             }
-            var worldPosition = world.Clamp(camera.Project(new Vector2(e.Position.X, e.Position.Y)));
-            Console.WriteLine($"ScreenPos: {e.Position.X} {e.Position.Y} - WorldPos: {worldPosition.X} {worldPosition.Y}");
+            // var worldPosition = world.Clamp(camera.Project(new Vector2(e.Position.X, e.Position.Y)));
+            // Console.WriteLine($"ScreenPos: {e.Position.X} {e.Position.Y} - WorldPos: {worldPosition.X} {worldPosition.Y}");
         }
 
         protected override void OnMouseWheel(MouseWheelEventArgs e)
@@ -50,76 +50,36 @@ namespace sim.Render
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
+            world = WorldFactory.Build();
 
-            GL.ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-
-            // Why do these flip the textures?
-            GL.ClipControl(ClipOrigin.UpperLeft, ClipDepthMode.NegativeOneToOne);
-            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
-
-            world = new World(10, 10);
-            world.Fill(Tile.Grass);
-            for (var x = 0; x < world.Width; x++)
-            {
-                world[x, 0] = Tile.Wall;
-            }
-            for (var y = 0; y < world.Height; y++)
-            {
-                world[5, 1] = Tile.PathVertical;
-            }
-            world[5, 0] = Tile.DoorClosed;
-
-            spriteSheet = new SpriteSheet(new Texture(), 16);
+            program = new Program(new List<Shader> { Shader.VertexShader(), Shader.FragmentShader() });
+            camera = new Camera(new Vector2(Width, Height), 200);
             vbo = BuildVertices(spriteSheet);
             vao = new Vao(vbo);
             ebo = BuildElements();
+            spriteSheet = new SpriteSheet(new Texture(), 16);
 
-            program = new Program(new List<Shader> { Shader.VertexShader(), Shader.FragmentShader() });
-
-            camera = new Camera(new Vector2(Width, Height), 200);
+            renderer = new Renderer(program, camera, vbo, vao, ebo, spriteSheet);
+            renderer.Init();
         }
 
         protected override void OnRenderFrame(FrameEventArgs e)
         {
             base.OnRenderFrame(e);
-
-            GL.Clear(ClearBufferMask.ColorBufferBit);
-
-            GL.UseProgram(program.handle);
-
-            // TODO: Why bin projection?
-            var projection = camera.GetCameraTransform();
-            GL.UniformMatrix4(GL.GetUniformLocation(program.handle, "projection"), false, ref projection);
-
-            GL.BindVertexArray(vao.handle);
-
-            GL.ActiveTexture(TextureUnit.Texture0);
-            GL.BindTexture(TextureTarget.Texture2D, spriteSheet.Texture.handle);
-
-            GL.DrawElements(PrimitiveType.Triangles, ebo.Indices.Length, DrawElementsType.UnsignedInt, 0);
-
+            renderer.Render();
             SwapBuffers();
         }
 
         protected override void OnResize(EventArgs e)
         {
             base.OnResize(e);
-            GL.Viewport(0, 0, Width, Height);
+            renderer.Resize(Width, Height);
         }
 
         protected override void OnUnload(EventArgs e)
         {
             base.OnUnload(e);
-
-            GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
-            GL.DeleteBuffer(vbo.handle);
-            GL.DeleteBuffer(ebo.handle);
-
-            GL.BindVertexArray(0);
-            GL.DeleteVertexArray(vao.handle);
-
-            GL.UseProgram(0);
-            GL.DeleteProgram(program.handle);
+            renderer.Unload();
         }
 
         private Vbo BuildVertices(SpriteSheet spriteSheet)

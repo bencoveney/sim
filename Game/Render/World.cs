@@ -39,4 +39,23 @@ namespace sim.Render
             );
         }
     }
+
+    internal static class WorldFactory
+    {
+        internal static World Build()
+        {
+            var world = new World(10, 10);
+            world.Fill(Tile.Grass);
+            for (var x = 0; x < world.Width; x++)
+            {
+                world[x, 0] = Tile.Wall;
+            }
+            for (var y = 0; y < world.Height; y++)
+            {
+                world[5, 1] = Tile.PathVertical;
+            }
+            world[5, 0] = Tile.DoorClosed;
+            return world;
+        }
+    }
 }
