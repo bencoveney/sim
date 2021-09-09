@@ -54,10 +54,10 @@ namespace sim.Render
 
             program = new Program(new List<Shader> { Shader.VertexShader(), Shader.FragmentShader() });
             camera = new Camera(new Vector2(Width, Height), 200);
+            spriteSheet = new SpriteSheet(new Texture(), 16);
             vbo = BuildVertices(spriteSheet);
             vao = new Vao(vbo);
             ebo = BuildElements();
-            spriteSheet = new SpriteSheet(new Texture(), 16);
 
             renderer = new Renderer(program, camera, vbo, vao, ebo, spriteSheet);
             renderer.Init();

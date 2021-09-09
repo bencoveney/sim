@@ -3,7 +3,6 @@ using EntityComponentSystem;
 using Sim.Logging;
 using Sim.Runner;
 using Sim.Systems;
-using Sim.Factories;
 
 namespace Sim
 {
@@ -26,7 +25,7 @@ namespace Sim
             var townPop = 10;
             var popsize = towns * townPop;
 
-            WorldFactory.Create(ecs, start, 3, townPop);
+            Factories.WorldFactory.Create(ecs, start, 3, townPop);
 
             Logger.LogEntities("Before running", ecs);
 
