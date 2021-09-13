@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using OpenTK.Input;
 
-namespace sim.Input
+namespace Sim.Input
 {
     public interface IKeyboardHandler
     {

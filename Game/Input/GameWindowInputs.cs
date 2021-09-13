@@ -1,6 +1,6 @@
 using OpenTK;
 
-namespace sim.Input
+namespace Sim.Input
 {
     public static class GameWindowInputs
     {

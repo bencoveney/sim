@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Input;
-using sim.Input;
+using Sim.Input;
 
-namespace sim.Render
+namespace Sim.Render
 {
     public class Game : GameWindow
     {

@@ -1,6 +1,6 @@
 using OpenTK;
 
-namespace sim.Render
+namespace Sim.Render
 {
     class SpriteSheet
     {

@@ -1,4 +1,4 @@
-namespace sim.Render
+namespace Sim.Render
 {
     public class Handle
     {

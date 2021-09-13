@@ -1,7 +1,7 @@
 using System;
 using OpenTK.Graphics.OpenGL;
 
-namespace sim.Render
+namespace Sim.Render
 {
     public class Error
     {

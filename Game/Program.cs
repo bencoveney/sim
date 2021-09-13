@@ -1,9 +1,9 @@
-﻿using sim.Render;
+﻿using Sim.Render;
 using EntityComponentSystem;
 using Sim.Logging;
 using Sim.Runner;
 using Sim.Systems;
-using sim.Input;
+using Sim.Input;
 
 namespace Sim
 {
@@ -45,7 +45,7 @@ namespace Sim
             var input = new InputSystem();
 
             // This line creates a new instance, and wraps the instance in a using statement so it's automatically disposed once we've exited the block.
-            using var game = new Game(800, 600, "sim", input);
+            using var game = new Game(800, 600, "Sim", input);
 
             input.AddContext(GameWindowInputs.CreateInputContext(game));
 

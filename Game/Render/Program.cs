@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using OpenTK.Graphics.OpenGL;
 
-namespace sim.Render
+namespace Sim.Render
 {
     public class Program
     {

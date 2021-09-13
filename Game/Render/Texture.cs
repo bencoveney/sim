@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using OpenTK.Graphics.OpenGL4;
 using Sim.Utils;
 
-namespace sim.Render
+namespace Sim.Render
 {
     class Texture
     {

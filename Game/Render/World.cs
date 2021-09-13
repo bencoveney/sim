@@ -1,7 +1,7 @@
 using System;
 using OpenTK;
 
-namespace sim.Render
+namespace Sim.Render
 {
     class World
     {

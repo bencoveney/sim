@@ -2,7 +2,7 @@ using System;
 using OpenTK.Graphics.OpenGL;
 using Sim.Utils;
 
-namespace sim.Render
+namespace Sim.Render
 {
     public class Shader
     {

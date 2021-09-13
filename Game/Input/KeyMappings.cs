@@ -5,7 +5,7 @@ using System.Text.Json;
 using OpenTK.Input;
 using Sim.Utils;
 
-namespace sim.Input
+namespace Sim.Input
 {
     public class KeyMappings
     {
