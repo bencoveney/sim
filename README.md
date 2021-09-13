@@ -37,3 +37,4 @@ Middle earth
 https://github.com/davudk/OpenGL-TileMap-Demos
 https://www.youtube.com/watch?v=052xutD86uI
 https://learnopengl.com/Getting-started/Coordinate-Systems
+https://www.gamedev.net/blogs/entry/2250186-designing-a-robust-input-handling-system-for-games/

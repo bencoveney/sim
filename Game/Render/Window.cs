@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Input;
+using sim.Input;
 
 namespace sim.Render
 {
@@ -16,8 +17,13 @@ namespace sim.Render
         World world;
         Camera camera;
         Renderer renderer;
+        IKeyboardHandler keyboardHandler;
 
-        public Game(int width, int height, string title) : base(width, height, GraphicsMode.Default, title) { }
+        public Game(int width, int height, string title, IKeyboardHandler keyboardHandler)
+            : base(width, height, GraphicsMode.Default, title)
+        {
+            this.keyboardHandler = keyboardHandler;
+        }
 
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
@@ -45,6 +51,18 @@ namespace sim.Render
         {
             base.OnMouseWheel(e);
             camera.Zoom(e.Delta);
+        }
+
+        protected override void OnKeyDown(KeyboardKeyEventArgs e)
+        {
+            base.OnKeyDown(e);
+            keyboardHandler.OnKeyDown(e);
+        }
+
+        protected override void OnKeyUp(KeyboardKeyEventArgs e)
+        {
+            base.OnKeyUp(e);
+            keyboardHandler.OnKeyUp(e);
         }
 
         protected override void OnLoad(EventArgs e)

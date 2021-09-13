@@ -5,6 +5,7 @@
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="Assets/data/*.txt" />
+    <EmbeddedResource Include="Assets/data/*.json" />
     <EmbeddedResource Include="Assets/shader/*.glsl" />
     <EmbeddedResource Include="Assets/img/*.png" />
   </ItemGroup>

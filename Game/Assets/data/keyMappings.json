@@ -1,0 +1,5 @@
+{
+    "mappings": [
+        { "name": "Toggle FullScreen", "trigger": "toggle_fullscreen", "defaultKey": "F" }
+    ]
+}
