@@ -1,5 +1,6 @@
 {
     "mappings": [
-        { "name": "Toggle FullScreen", "trigger": "toggle_fullscreen", "defaultKey": "F" }
+        { "name": "Toggle FullScreen", "trigger": "toggle_fullscreen", "defaultKey": "F" },
+        { "name": "Close Game", "trigger": "close_game", "defaultKey": "Escape" }
     ]
 }

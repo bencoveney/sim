@@ -45,7 +45,9 @@ namespace Sim
             var input = new InputSystem();
 
             // This line creates a new instance, and wraps the instance in a using statement so it's automatically disposed once we've exited the block.
-            using var game = new Game(800, 600, "Sim", input);
+            using var game = new Game(800, 600, "Sim");
+
+            input.CaptureKeyPresses(game);
 
             input.AddContext(GameWindowInputs.CreateInputContext(game));
 

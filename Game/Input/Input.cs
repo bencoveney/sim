@@ -1,18 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using OpenTK;
 using OpenTK.Input;
 
 namespace Sim.Input
 {
-    public interface IKeyboardHandler
-    {
-        void OnKeyDown(KeyboardKeyEventArgs eventArgs);
-
-        void OnKeyUp(KeyboardKeyEventArgs eventArgs);
-    }
-
-    public class InputSystem : IKeyboardHandler
+    public class InputSystem
     {
         private KeyMappings mappings = new();
         private readonly List<InputContext> contexts = new();
@@ -27,10 +21,14 @@ namespace Sim.Input
             contexts.Remove(context);
         }
 
-        public void OnKeyDown(KeyboardKeyEventArgs eventArgs)
+        public void CaptureKeyPresses(GameWindow window)
         {
-            Console.WriteLine($"OnKeyDown {eventArgs.Key} {eventArgs.IsRepeat}");
+            window.KeyDown += OnKeyDown;
+            window.KeyUp += OnKeyUp;
+        }
 
+        private void OnKeyDown(object sender, KeyboardKeyEventArgs eventArgs)
+        {
             var availableTriggers = mappings.GetMappingsByKey(eventArgs.Key).Select(mapping => mapping.Trigger);
 
             for (var i = 0; i < contexts.Count; i++)
@@ -60,10 +58,8 @@ namespace Sim.Input
             }
         }
 
-        public void OnKeyUp(KeyboardKeyEventArgs eventArgs)
+        private void OnKeyUp(object sender, KeyboardKeyEventArgs eventArgs)
         {
-            Console.WriteLine($"onKeyUp {eventArgs.Key}");
-
             var availableTriggers = mappings.GetMappingsByKey(eventArgs.Key).Select(mapping => mapping.Trigger);
 
             for (var i = 0; i < contexts.Count; i++)

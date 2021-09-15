@@ -17,24 +17,10 @@ namespace Sim.Render
         World world;
         Camera camera;
         Renderer renderer;
-        IKeyboardHandler keyboardHandler;
 
-        public Game(int width, int height, string title, IKeyboardHandler keyboardHandler)
+        public Game(int width, int height, string title)
             : base(width, height, GraphicsMode.Default, title)
         {
-            this.keyboardHandler = keyboardHandler;
-        }
-
-        protected override void OnUpdateFrame(FrameEventArgs e)
-        {
-            base.OnUpdateFrame(e);
-
-            KeyboardState input = Keyboard.GetState();
-
-            if (input.IsKeyDown(Key.Escape))
-            {
-                Exit();
-            }
         }
         protected override void OnMouseMove(MouseMoveEventArgs e)
         {
@@ -51,18 +37,6 @@ namespace Sim.Render
         {
             base.OnMouseWheel(e);
             camera.Zoom(e.Delta);
-        }
-
-        protected override void OnKeyDown(KeyboardKeyEventArgs e)
-        {
-            base.OnKeyDown(e);
-            keyboardHandler.OnKeyDown(e);
-        }
-
-        protected override void OnKeyUp(KeyboardKeyEventArgs e)
-        {
-            base.OnKeyUp(e);
-            keyboardHandler.OnKeyUp(e);
         }
 
         protected override void OnLoad(EventArgs e)

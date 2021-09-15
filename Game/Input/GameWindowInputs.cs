@@ -1,3 +1,4 @@
+using System;
 using OpenTK;
 
 namespace Sim.Input
@@ -8,13 +9,14 @@ namespace Sim.Input
         {
             var context = new InputContext();
             context.RegisterAction("toggle_fullscreen", new FullScreenInputAction(window));
+            context.RegisterAction("close_game", new CloseInputAction(window));
             return context;
         }
     }
 
     public class FullScreenInputAction : InputAction
     {
-        private GameWindow window;
+        private readonly GameWindow window;
         private Size cachedSize;
 
         public FullScreenInputAction(GameWindow window)
@@ -37,6 +39,21 @@ namespace Sim.Input
                 window.WindowBorder = WindowBorder.Hidden;
                 window.WindowState = WindowState.Fullscreen;
             }
+        }
+    }
+
+    public class CloseInputAction : InputAction
+    {
+        private readonly GameWindow window;
+
+        public CloseInputAction(GameWindow window)
+        {
+            this.window = window;
+        }
+
+        public void OnTrigger()
+        {
+            window.Exit();
         }
     }
 }
